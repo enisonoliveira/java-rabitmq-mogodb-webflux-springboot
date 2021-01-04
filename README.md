@@ -1,5 +1,5 @@
 
-
+Documentação completa aqui!
 [doc sicredi.pdf](https://github.com/enisonoliveira/sicrediteste/files/5765724/doc.sicredi.pdf)
 
 <h6 style="font-size:8px">
@@ -66,5 +66,39 @@ http://localhost:8080/pauta/
 
 
 Diagrama básico modelagem de dados figura  1 uml
+![image](https://user-images.githubusercontent.com/24898873/103557463-05892d80-4e92-11eb-9bf5-a1a4c6136ab1.png)
 
+
+![image](https://user-images.githubusercontent.com/24898873/103557581-294c7380-4e92-11eb-9769-da4fe3005c9d.png)
+
+
+
+![image](https://user-images.githubusercontent.com/24898873/103557619-39fce980-4e92-11eb-9d92-79e37014a2b3.png)
+
+
+
+![image](https://user-images.githubusercontent.com/24898873/103557666-4b45f600-4e92-11eb-9536-1ad7bcfb607e.png)
+
+
+![image](https://user-images.githubusercontent.com/24898873/103557698-59941200-4e92-11eb-86c5-8bf56ef92c02.png)
+
+
+![image](https://user-images.githubusercontent.com/24898873/103557748-6d3f7880-4e92-11eb-9c40-88b4b133eab7.png)
+
+Todas as rotas da API
+
+POST:
+http://localhost:8080/pauta/user/save/38406905800
+
+GET:
+http://localhost:8080/pauta/user/cpf/status/38406905800
+
+POST:
+http://localhost:8080/pauta/session/save/ nome pauta para votação em questão test
+
+GET:
+http://localhost:8080/pauta/session/start/5ff31d82d0246e77040fbc7c
+
+GET:
+http://localhost:8080/pauta/voting/save?CPF=38406905834&session_id=5ff31d82d0246e77040fbc7c&voting=sim
 </h6>
