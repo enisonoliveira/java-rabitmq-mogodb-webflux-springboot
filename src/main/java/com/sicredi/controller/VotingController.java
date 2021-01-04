@@ -58,15 +58,12 @@ public class VotingController {
                 user = userService.save ( user );
             }
              sessionVoting =new SessionVoting ( null , user , session , votingUser );
-
             if( sessionVotingService.validVoteUserExists( user.get_id (), session_id )){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário já votou nessa sessão!");
             }
-
             if( ! sessionService.compareIntervalDate(session_id )){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sessão encerrada!");
             }
-
             registerVotin ( sessionVoting );
         }
         return ResponseEntity.ok("OK!");
