@@ -2,7 +2,7 @@
 
 [doc sicredi.pdf](https://github.com/enisonoliveira/sicrediteste/files/5765724/doc.sicredi.pdf)
 
-<span>
+<span style="font-size:8px">
 Api Pauta de votação
 
 Tecnologias usada Srpging-boot, mogoDB, Gradlew, RabbitMQ,Tomcat
