@@ -9,6 +9,7 @@ import com.sicredi.service.SessionService;
 import com.sicredi.service.SessionVotingService;
 import com.sicredi.service.UserService;
 import org.junit.Before;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
@@ -24,6 +25,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.MethodOrderer.*;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest( includeFilters = {@ComponentScan.Filter(
@@ -45,60 +47,63 @@ public class ApplicationTest {
 	@Autowired
 	private UserService userService;
 
+	private int random=(int) new Date().getTime();
+
+	public ApplicationTest ( ) {
+	}
+
 	@Before
 	public void init() {
-		MockitoAnnotations.openMocks ( this );
+		 random=(int) new Date().getTime();
 	}
 
 	@Test
 	void contextLoads() {
 	}
 
-//	@Test
+	@Test
 	void testRepoPauta() {
-		Pauta pauta = new Pauta ( null,"mammdamsmda3",0,0 );
+		Pauta pauta = new Pauta ( null,"md5mfkdourtumsfarpskam2rnnit"+random,0,0 );
 		pauta=pautaService.save ( pauta );
-		assertEquals ( "mammdamsmda3",pauta.getName () );
+		assertEquals ( "md5mfkdourtumsfarpskam2rnnit"+random,pauta.getName () );
 	}
 
-//	@Test
+	@Test
 	void testRepoUser() {
-		User user = new User ( null, "3806905123" , true);
+		User user = new User ( null, ""+random , true);
 		user=userService.save ( user );
-		assertEquals ( "3806905123",user.getCPF () );
+		assertEquals ( ""+random,user.getCPF () );
 	}
 
-//	@Test
+	@Test
 	void testRepoSession() throws ParseException, IllegalAccessException {
 
-		Pauta pauta = new Pauta ( null,"pauta31231",0,0 );
+		Pauta pauta = new Pauta ( null,"pauta de numero 2050"+random,0,0 );
 		pauta=pautaService.save ( pauta );
-		assertEquals ( "pauta31231",pauta.getName () );
+		assertEquals ( "pauta de numero 2050"+random,pauta.getName () );
 
 		Session session = new Session (  null, new Date (  ), new Date (  ),pauta  ,false);
 		session=sessionService.save ( session );
 		assertEquals ( pauta.get_id (), session.getPauta ().get_id ());
 	}
 
-//	@Test
+	@Test
 	void testRepoVote() throws ParseException, IllegalAccessException {
 
-		User user = new User ( null, "3806905800" , true);
+		User user = new User ( null, "1"+random , true);
 		user=userService.save ( user );
-		assertEquals ( "3806905800",user.getCPF () );
+		assertEquals ( "1"+random,user.getCPF () );
 
-		Pauta pauta = new Pauta ( null,"pauta2",0,0 );
+		Pauta pauta = new Pauta ( null,"pauta 12412"+random,0,0 );
 		pauta=pautaService.save ( pauta );
-		assertEquals ( "pauta2",pauta.getName () );
+		assertEquals ( "pauta 12412"+random,pauta.getName () );
 
 		Session session = new Session (  null, new Date (  ), new Date (  ),pauta , false);
 		session=sessionService.save ( session );
-		assertEquals ( pauta.get_id (), session.getPauta ().get_id ());
 
-		SessionVoting sessionVoting = new SessionVoting ( null , user, session , true  );
-		sessionVoting = sessionVotingService.save ( sessionVoting );
-		assertEquals( sessionVoting.getUser ().get_id (),user.get_id ());
-		assertEquals( sessionVoting.getSession ().get_id (),session.get_id ());
+		pauta=sessionService.startSession ( session );
+
+		assertEquals ( pauta.get_id (), session.getPauta ().get_id ());
 
 	}
 

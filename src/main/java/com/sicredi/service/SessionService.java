@@ -32,6 +32,7 @@ public class SessionService {
     @Autowired
     private  PautaService pautaService;
 
+
     private Logger logger;
 
     {
