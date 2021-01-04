@@ -126,6 +126,6 @@ http://localhost:8080/pauta/session/save/ nome pauta para votação em questão 
 GET:
 http://localhost:8080/pauta/session/start/5ff31d82d0246e77040fbc7c
 
-GET:
+POST:
 http://localhost:8080/pauta/voting/save?CPF=38406905834&session_id=5ff31d82d0246e77040fbc7c&voting=sim
 </h6>
