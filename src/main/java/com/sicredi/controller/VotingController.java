@@ -38,18 +38,18 @@ public class VotingController {
     @Autowired
     private Producer rabbitMQSender;
 
-    @GetMapping (value = "/save")
+    @PostMapping (value = "/save")
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity <?> saveSession(  @RequestParam  String CPF ,@RequestParam String session_id
-             ,@RequestParam String votin) throws ParseException, IllegalAccessException {
+             ,@RequestParam String voting) throws ParseException, IllegalAccessException {
 
         Optional < Session > sessionOptional = sessionService.findById ( session_id );
         Session session = sessionOptional.get ();
         User user=null;
         SessionVoting sessionVoting =null;
         {
-            boolean votinUser= votin.equals ( "sim" )? true:false;
-            if ( userService.existsCPF ( CPF ) ) {
+            boolean votingUser= voting.equals ( "sim" )? true:false;
+            if ( ! userService.noExistsCPF ( CPF ) ) {
                 List < User > users = userService.findByCPF ( CPF );
                 user = users.get ( 0 );
             } else {
@@ -57,7 +57,16 @@ public class VotingController {
                 user = new User ( null , CPF , true );
                 user = userService.save ( user );
             }
-             sessionVoting =new SessionVoting ( null , user , session , votinUser );
+             sessionVoting =new SessionVoting ( null , user , session , votingUser );
+
+            if( sessionVotingService.validVoteUserExists( user.get_id (), session_id )){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário já votou nessa sessão!");
+            }
+
+            if( ! sessionService.compareIntervalDate(session_id )){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sessão encerrada!");
+            }
+
             registerVotin ( sessionVoting );
         }
         return ResponseEntity.ok("OK!");

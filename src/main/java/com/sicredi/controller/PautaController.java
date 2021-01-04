@@ -1,5 +1,6 @@
 package com.sicredi.controller;
 
+import com.google.gson.Gson;
 import com.sicredi.jms.producer.Producer;
 import com.sicredi.model.Pauta;
 import com.sicredi.model.Session;
@@ -26,23 +27,40 @@ public class PautaController {
     @Autowired
     private Producer rabbitMQSender;
 
-    @GetMapping (value = "/start/{pauta_id}")
+    @GetMapping (value = "/start/{session_id}")
     @ResponseStatus ( HttpStatus.OK)
-    public ResponseEntity <?> saveSession( @PathVariable ("pauta_id") String session_id)
+    public ResponseEntity <Object> saveSession( @PathVariable ("session_id") String session_id)
             throws ParseException, IllegalAccessException {
 
         Optional < Session > sessionOptional =sessionService.findById (session_id);
         Session session = sessionOptional.get ();
-        
-        Pauta pauta=sessionService.startSession ( session );
 
+        if( !sessionService.compareIntervalDate ( session.get_id () ) ){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Sessão ja foi finalizada!");
+        }
+
+        if( sessionService.sessionHasInitialized ( session.get_id () ) ){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Sessão ja foi inicializada!");
+        }
+
+        Pauta pauta = sessionService.startSession ( session );
+        {
+            Gson gson = new Gson ( );
+            //envia o resultado via mensageria
+            rabbitMQSender.sendAll ( "Finish job session " );
+            rabbitMQSender.sendAll ( gson.toJson ( pauta ) );
+        }
         return ResponseEntity.ok(pauta);
     }
 
-    @GetMapping (value = "/save/{name}")
+    @PostMapping (value = "/save/{name}")
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity <?> savePauta( @PathVariable ("name") String name)
             throws ParseException, IllegalAccessException {
+
+        if(! service.validateName ( name ) ){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Pauta com nome ja cadastrado!");
+        }
 
         Pauta pauta = new Pauta ( null,name,0,0 );
         pauta=service.save ( pauta );

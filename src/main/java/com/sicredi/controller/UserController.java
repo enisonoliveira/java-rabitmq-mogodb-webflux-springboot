@@ -16,10 +16,14 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping (value = "/save/{CPF}")
+    @PostMapping (value = "/save/{CPF}")
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity <?> saveSession( @PathVariable ("CPF") String CPF)
             throws IllegalAccessException {
+
+        if( ! userService.noExistsCPF ( CPF  )){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Usuário com CPF já cadastrado!");
+        }
 
         User user = new User ( null,CPF,true );
         user=userService.save ( user );
@@ -33,6 +37,10 @@ public class UserController {
             throws IllegalAccessException {
 
         List<User> user = userService.findByCPF ( CPF );
+
+        if( 0 == user.size ( ) ){
+            return ResponseEntity.status(HttpStatus.FAILED_DEPENDENCY).body("CPF não existente em nossa base!");
+        }
 
         return ResponseEntity.ok(user);
     }

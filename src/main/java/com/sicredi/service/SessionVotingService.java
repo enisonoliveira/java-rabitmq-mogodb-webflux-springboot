@@ -56,7 +56,7 @@ public class SessionVotingService {
     }
 
 
-    private boolean validVoteUserExists ( String user_id , String session_id ) throws IllegalAccessException {
+    public boolean validVoteUserExists ( String user_id , String session_id ) throws IllegalAccessException {
 
         if((user_id.equals ( "" ) || user_id==null)|| (session_id.equals ( "" ) || session_id==null)){
             throw new IllegalAccessException ( " : Certifique de passar um usuario e sessao valida! " );

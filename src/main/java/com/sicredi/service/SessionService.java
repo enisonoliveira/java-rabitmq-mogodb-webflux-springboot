@@ -32,10 +32,6 @@ public class SessionService {
     @Autowired
     private  PautaService pautaService;
 
-
-    @Autowired
-    Producer rabbitMQSender;
-
     private Logger logger;
 
     {
@@ -46,23 +42,18 @@ public class SessionService {
     @Async
     public  Pauta startSession(Session session) throws IllegalAccessException, ParseException {
 
-        //Inicia a sessao para a votaçao
-        session = save ( session );
         //delay de um minuto para a o termino da votacao
+        initSession ( session );
         try {
             Thread.sleep(60000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
          //Finaliza a sessao
-        update ( session );
+        finishSession ( session );
         logger.info("Finished process.");
        //Faz a apurçao da votacao
         Pauta pauta = pauta ( session );
-        //envia o resultado via mensageria
-        Gson gson = new Gson ();
-        rabbitMQSender.sendAll ("Finish job session ");
-        rabbitMQSender.sendAll (gson.toJson ( pauta ));
 
         return pauta;
     }
@@ -91,14 +82,23 @@ public class SessionService {
     }
 
     public Session save ( Session session ) throws ParseException, IllegalAccessException {
+             repository.save ( session );
+
+        return session;
+    }
+
+    private Session initSession ( Session session ) throws ParseException, IllegalAccessException {
+
         session.setStartSession ( getDateStartSession ( ) );
         session.setEndSession ( getDateEndSession ( session.getStartSession ( ) ) );
+        session.setInit_session ( true );
         repository.save ( session );
 
         return session;
     }
 
-    private Session update ( Session session ) throws ParseException, IllegalAccessException {
+
+    private Session finishSession ( Session session ) throws ParseException, IllegalAccessException {
 
         session.setFinish_session ( true );
         repository.save ( session );
@@ -106,12 +106,17 @@ public class SessionService {
         return session;
     }
 
-    protected boolean compareIntervalDate ( String _id ) {
+
+
+    public boolean compareIntervalDate ( String _id ) {
 
         Optional < Session > optionalSession = findById ( _id );
         Session session = optionalSession.get ( );
         Date currentDate = new Date ( );
-        return currentDate.after ( session.getStartSession ( ) ) && currentDate.before ( session.getEndSession ( ) );
+        if( session.getEndSession ( )==null){
+            return true;
+        }
+        return currentDate.after (  session.getEndSession ( ) );
 
     }
 
@@ -137,6 +142,13 @@ public class SessionService {
 
         Date endDate = new Date ( getDateStartSession ( ).getTime ( ) + ( 60000 ) );
         return endDate;
+    }
+
+    public boolean sessionHasInitialized(String sesssion_id){
+
+        Optional<Session> sessionOptional=findById ( sesssion_id );
+        Session session=sessionOptional.get ();
+        return session.isInit_session ();
     }
 
     public Optional < Session > findById ( String _id ) {

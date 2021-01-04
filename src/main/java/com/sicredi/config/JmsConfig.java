@@ -40,7 +40,7 @@ public class JmsConfig  {
 
 
     @Bean
-    Queue queueVotin() {
+    Queue queueVoting() {
         return new Queue(queueName, true);
     }
 
@@ -54,7 +54,7 @@ public class JmsConfig  {
     MessageListenerContainer messageListenerContainerVotin( ConnectionFactory connectionFactory ) {
         SimpleMessageListenerContainer simpleMessageListenerContainer = new SimpleMessageListenerContainer();
         simpleMessageListenerContainer.setConnectionFactory(connectionFactory);
-        simpleMessageListenerContainer.setQueues(queueVotin ());
+        simpleMessageListenerContainer.setQueues(queueVoting ());
         simpleMessageListenerContainer.setMessageListener(new ReportReceiver ());
         return simpleMessageListenerContainer;
 
@@ -71,13 +71,13 @@ public class JmsConfig  {
     }
 
     @Bean
-    @Qualifier("exchangeVotin")
+    @Qualifier("exchangeVoting")
     DirectExchange exchangeVotin() {
         return new DirectExchange(exchange);
     }
 
     @Bean
-    Binding bindingVotin( @Qualifier("queueVotin") Queue queue, @Qualifier("exchangeVotin")  DirectExchange exchange) {
+    Binding bindingVotin( @Qualifier("queueVoting") Queue queue, @Qualifier("exchangeVoting")  DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingkey);
     }
 

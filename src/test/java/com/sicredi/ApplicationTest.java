@@ -102,9 +102,5 @@ public class ApplicationTest {
 
 	}
 
-	@Test
-	void testListVotin() {
-		sessionVotingService.all ( "5ff23a944fcd6e1b92958b08","5ff25170f0beb06df37c74be" );
-	}
 }
 

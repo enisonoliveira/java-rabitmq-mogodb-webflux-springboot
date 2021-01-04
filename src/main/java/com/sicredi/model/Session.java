@@ -13,24 +13,28 @@ public class Session {
     @Id
     private String _id;
 
-    @Field("start_session")
+    @Field("date_start_session")
     private Date startSession;
 
-    @Field("end_session")
+    @Field("date_end_session")
     private Date endSession;
-
-    @Field("finish_session")
-    private boolean finish_session;
 
     @DBRef
     private Pauta pauta;
 
+    @Field("init_session")
+    private boolean init_session;
+
+    @Field("finish_session")
+    private boolean finish_session;
+
     public Session ( String _id , Date startSession , Date endSession , Pauta pauta , boolean finish_session ) {
         this._id = _id;
-        this.startSession = startSession;
-        this.endSession = endSession;
+        this.startSession = null;
+        this.endSession = null;
         this.pauta = pauta;
         this.finish_session = false;
+        this.init_session = false;
     }
 
     public String get_id () {
@@ -71,5 +75,13 @@ public class Session {
 
     public void setFinish_session ( boolean finish_session ) {
         this.finish_session = finish_session;
+    }
+
+    public boolean isInit_session ( ) {
+        return init_session;
+    }
+
+    public void setInit_session ( boolean init_session ) {
+        this.init_session = init_session;
     }
 }

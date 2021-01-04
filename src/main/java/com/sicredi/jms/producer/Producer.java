@@ -12,7 +12,6 @@ public class Producer {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-
     @Scheduled(fixedDelay = 1000, initialDelay = 500)
     public void sendAll(String send ) {
         rabbitTemplate.convertAndSend("all","all", send);

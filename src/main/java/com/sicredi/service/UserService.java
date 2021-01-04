@@ -25,7 +25,7 @@ public class UserService {
 
     public User save( User user){
 
-        if( existsCPF ( user.getCPF ( ) )){
+        if( ! noExistsCPF ( user.getCPF ( ) )){
             logger.error ( "Usuário ja existe no banco com esse CPF" );
             throw  new DuplicateFormatFlagsException ( "Usuário ja existe no banco com esse CPF" );
         }
@@ -58,7 +58,7 @@ public class UserService {
         return repository.existsById ( _id );
     }
 
-    public boolean existsCPF( String CPF ) {
+    public boolean noExistsCPF( String CPF ) {
 
         List < User > users=repository.findByCPF ( CPF );
         return users.size ( ) == 0;

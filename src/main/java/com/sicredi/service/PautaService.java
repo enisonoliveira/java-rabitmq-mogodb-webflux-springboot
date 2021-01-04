@@ -74,7 +74,7 @@ public class PautaService {
        return repository.findById(_id);
     }
 
-    private boolean validateName(String name){
+    public boolean validateName(String name){
 
         List<Pauta> pautas=findName ( name );
 

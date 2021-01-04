@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: org.springframework.boot.loader.WarLauncher
-Start-Class: com.sicredi.SicrediApplication
-Spring-Boot-Version: 2.4.1
-Spring-Boot-Classes: WEB-INF/classes/
-Spring-Boot-Lib: WEB-INF/lib/
-
