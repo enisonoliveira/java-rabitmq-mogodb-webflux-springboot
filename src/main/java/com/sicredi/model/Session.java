@@ -20,7 +20,7 @@ public class Session {
     private Date endSession;
 
     @DBRef
-    private Ruling ruling;
+    private Pauta pauta;
 
     @Field("init_session")
     private boolean init_session;
@@ -28,11 +28,11 @@ public class Session {
     @Field("finish_session")
     private boolean finish_session;
 
-    public Session ( String _id , Date startSession , Date endSession , Ruling ruling , boolean finish_session ) {
+    public Session ( String _id , Date startSession , Date endSession , Pauta pauta , boolean finish_session ) {
         this._id = _id;
         this.startSession = null;
         this.endSession = null;
-        this.ruling = ruling;
+        this.pauta = pauta;
         this.finish_session = false;
         this.init_session = false;
     }
@@ -61,12 +61,12 @@ public class Session {
         this.endSession = endSession;
     }
 
-    public Ruling getPauta () {
-        return ruling;
+    public Pauta getPauta () {
+        return pauta;
     }
 
-    public void setPauta ( Ruling ruling ) {
-        this.ruling = ruling;
+    public void setPauta ( Pauta pauta ) {
+        this.pauta = pauta;
     }
 
     public boolean getFinish_session ( ) {

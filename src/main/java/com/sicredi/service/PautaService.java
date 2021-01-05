@@ -1,7 +1,7 @@
 package com.sicredi.service;
 
 import com.sicredi.dao.PautaRepository;
-import com.sicredi.model.Ruling;
+import com.sicredi.model.Pauta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RulingService {
+public class PautaService {
 
     @Autowired
     private PautaRepository repository;
@@ -20,65 +20,65 @@ public class RulingService {
     private Logger logger;
 
     {
-        logger = LoggerFactory.getLogger ( RulingService.class );
+        logger = LoggerFactory.getLogger ( PautaService.class );
     }
 
-    public Ruling save ( Ruling ruling ) {
+    public Pauta save ( Pauta pauta ) {
 
-        if(!validateName ( ruling.getName ()  )||!( ruling.get_id ()==null)){
-            logger.error ( ": Pauta  "+ ruling.getName () +" já existe no banco" );
+        if(!validateName ( pauta.getName ()  )||!( pauta.get_id ()==null)){
+            logger.error ( ": Pauta  "+ pauta.getName () +" já existe no banco" );
             throw  new DuplicateFormatFlagsException ( ": Operação não permitida!" );
         }
-        repository.save ( ruling );
+        repository.save ( pauta );
         logger.info ( ": save data pauta " );
         logger.info ( ": Operação realizada com sucesso!");
-        logger.info ( ": ID:"+ ruling.get_id () );
-        return ruling;
+        logger.info ( ": ID:"+ pauta.get_id () );
+        return pauta;
     }
 
-    protected Ruling update ( Ruling ruling ) {
+    protected Pauta update ( Pauta pauta ) {
 
-        if( ruling.get_id () == null || ruling.get_id ().equals ( "" )
-                || ruling.getName ().equals ( "" ) || ruling.getName ()==null){
+        if( pauta.get_id () == null || pauta.get_id ().equals ( "" )
+                || pauta.getName ().equals ( "" ) || pauta.getName ()==null){
             logger.error ( ":Pauta como dados inválido para alteração" );
             throw  new DuplicateFormatFlagsException ( ":Operação não permitida!" );
         }
-        repository.save ( ruling );
+        repository.save ( pauta );
         logger.info ( ": Update data pauta" );
         logger.info (": Operação update realizada com sucesso!");
-        logger.info (": ID:"+ ruling.get_id () );
+        logger.info (": ID:"+ pauta.get_id () );
 
-        return ruling;
+        return pauta;
     }
 
-    public Ruling delete ( Ruling ruling ) {
+    public Pauta delete ( Pauta pauta ) {
 
-        if( ruling.get_id () == null || ruling.get_id ().equals ( "" )){
+        if( pauta.get_id () == null || pauta.get_id ().equals ( "" )){
             logger.error ( ": Dados inválidos  para operação!" );
             throw  new DuplicateFormatFlagsException ( ": Operação não permitida!" );
         }
-        if (!validateId( ruling.get_id ())){
+        if (!validateId( pauta.get_id ())){
             logger.error ( ": Pauta desconhecida no sistema!" );
             throw  new DuplicateFormatFlagsException ( ": Operação não permitida!" );
         }
-        repository.delete ( ruling );
+        repository.delete ( pauta );
         logger.info ( ": Pauta deletada " );
         logger.info ( ": Operação delete realizada com sucesso!");
-        logger.info ( ": ID:"+ ruling.get_id () );
+        logger.info ( ": ID:"+ pauta.get_id () );
 
-        return ruling;
+        return pauta;
     }
 
 
-    protected Optional < Ruling > findOne( String _id) {
+    protected Optional < Pauta > findOne( String _id) {
        return repository.findById(_id);
     }
 
     public boolean validateName(String name){
 
-        List< Ruling > rulings =findName ( name );
+        List< Pauta > pautas =findName ( name );
 
-        if( rulings ==null|| rulings.size ()==0){
+        if( pautas ==null|| pautas.size ()==0){
             return true;
         }
 
@@ -90,7 +90,7 @@ public class RulingService {
         return repository.existsById ( _id );
     }
 
-    protected List< Ruling > findName ( String name ) {
+    protected List< Pauta > findName ( String name ) {
         return repository.findName ( name );
     }
 }
