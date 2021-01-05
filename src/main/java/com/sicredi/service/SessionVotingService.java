@@ -58,24 +58,26 @@ public class SessionVotingService {
 
     public boolean validVoteUserExists ( String user_id , String session_id ) throws IllegalAccessException {
 
+        logger.info ( "consultando user ID:"+ user_id);
+        logger.info ( "consultando sessão ID :"+ session_id);
         if((user_id.equals ( "" ) || user_id==null)|| (session_id.equals ( "" ) || session_id==null)){
             throw new IllegalAccessException ( " : Certifique de passar um usuario e sessao valida! " );
         }
 
-        if ( exists ( user_id , session_id ) ) {
-            return true;
-        }
-        return false;
+        return existsVotinSession(user_id,session_id);
     }
 
-    private boolean exists ( String user_id , String session_id ) {
+    private boolean existsVotinSession ( String user_id , String session_id ) {
 
         List < SessionVoting > sessionVotin = repository.findSessionVotinUser ( user_id , session_id );
 
-        if ( sessionVotin != null || sessionVotin.size ()>0 ) {
-            return false;
+        if (sessionVotin.size ()>0 ) {
+            logger.info ( "id user="+user_id );
+            logger.info ( "id session="+session_id );
+            logger.info ( " usuario ja votou na sessao :" +sessionVotin.size ());
+            return true;
         }
-        return true;
+        return false;
     }
 
     public List<SessionVoting> getSessionVotin( String session_id) throws IllegalAccessException {
