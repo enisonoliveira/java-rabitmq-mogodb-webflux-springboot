@@ -51,8 +51,8 @@ public class VotingController {
         {
             boolean votingUser= voting.equals ( "sim" )? true:false;
             if ( ! userService.noExistsCPF ( CPF ) ) {
-                List < User > users = userService.findByCPF ( CPF );
-                user = users.get ( 0 );
+                Optional < User > users = userService.findByCPF ( CPF );
+                user = users.get (  );
             } else {
                 //se não existe cadastra um novo usuário com cpf informado
                 user = new User ( null , CPF , true );

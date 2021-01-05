@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping (path = "/user")
@@ -37,10 +38,10 @@ public class UserController {
     public ResponseEntity < Mono <String>> statusCPF( @PathVariable ("CPF") String CPF)
             throws IllegalAccessException {
 
-        List<User> user = userService.findByCPF ( CPF );
+        Optional <User> user = userService.findByCPF ( CPF );
         Gson gson = new Gson ();
-        String userJson=gson.toJson ( user.get ( 0 ));
-        if( 0 == user.size ( ) ) {
+        String userJson=gson.toJson ( user.get (  ));
+        if( !user.isPresent ()) {
             return ResponseEntity
                     .status ( HttpStatus.UNAUTHORIZED )
                     .header ( "X-Reason" , "user-invalid" )

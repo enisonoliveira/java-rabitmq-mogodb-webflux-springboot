@@ -51,7 +51,7 @@ public class UserService {
         return repository.findById(_id);
     }
 
-    public List<User> findByCPF(String CPF) {
+    public Optional<User> findByCPF(String CPF) {
         return repository.findByCPF ( CPF );
     }
 
@@ -61,7 +61,7 @@ public class UserService {
 
     public boolean noExistsCPF( String CPF ) {
 
-        List < User > users=repository.findByCPF ( CPF );
-        return users.size ( ) == 0;
+        Optional < User > usersUserOptional=repository.findByCPF ( CPF );
+        return usersUserOptional.isPresent ();
     }
 }

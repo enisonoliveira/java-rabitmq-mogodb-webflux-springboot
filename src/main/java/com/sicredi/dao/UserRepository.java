@@ -11,7 +11,7 @@ public interface UserRepository extends MongoRepository < User, String > {
 
     Optional < User > findById ( String _id );
     @Query ("{'CPF': ?0}")
-    List < User > findByCPF ( String CPF );
+    Optional < User > findByCPF ( String CPF );
 
     User save ( User user );
 }
