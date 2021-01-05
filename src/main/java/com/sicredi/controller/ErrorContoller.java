@@ -12,6 +12,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ServerErrorException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.DuplicateFormatFlagsException;
 
@@ -31,9 +32,20 @@ public class ErrorContoller  {
     }
 
 
+    @ExceptionHandler ( value = {ParseException.class} )
+    protected ResponseEntity < Response > parseException ( ParseException exception ,
+                                                                          WebRequest request ) {
+
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
+
+        return ResponseEntity.status ( HttpStatus.CONFLICT ).body ( response );
+    }
+
+
     @ExceptionHandler ( value = {IllegalAccessException.class} )
     protected ResponseEntity < Response > illegalAccessException ( IllegalAccessException exception ,
-                                                                          WebRequest request ) {
+                                                                   WebRequest request ) {
 
         Response response = new Response ( );
         response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
