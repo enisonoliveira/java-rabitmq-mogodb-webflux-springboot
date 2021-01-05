@@ -23,13 +23,6 @@ public class UserController {
     public ResponseEntity < Mono <String> > save( @PathVariable ("CPF") String CPF)
             throws IllegalAccessException {
 
-        if( ! userService.noExistsCPF ( CPF  )){
-            return  ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .header("X-Reason", "user-invalid")
-                    .body(Mono.just("Usuario com CPF ja cadastrado!"));
-        }
-
         User user = new User ( null,CPF,true );
         user=userService.save ( user );
 
