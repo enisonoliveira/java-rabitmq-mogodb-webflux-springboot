@@ -59,19 +59,6 @@ public class VotingController {
                 user = userService.save ( user );
             }
              sessionVoting =new SessionVoting ( null , user , session , votingUser );
-            if( sessionVotingService.validVoteUserExists( user.get_id (), session_id )){
-                return ResponseEntity
-                        .status ( HttpStatus.UNAUTHORIZED )
-                        .header ( "X-Reason" , "user-invalid" )
-                        .body ( Mono.just ( "Usuário já votou nessa sessão!" ) );
-
-            }
-            if( ! sessionService.compareIntervalDate(session_id )){
-                return ResponseEntity
-                        .status ( HttpStatus.UNAUTHORIZED )
-                        .header ( "X-Reason" , "user-invalid" )
-                        .body ( Mono.just ( "Sessão encerrada!" ) );
-            }
             registerVotin ( sessionVoting );
         }
         return ResponseEntity

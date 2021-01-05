@@ -35,14 +35,6 @@ public class PautaController {
         Optional < Session > sessionOptional =sessionService.findById (session_id);
         Session session = sessionOptional.get ();
 
-        if( !sessionService.compareIntervalDate ( session.get_id () ) ){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Sessão ja foi finalizada!");
-        }
-
-        if( sessionService.sessionHasInitialized ( session.get_id () ) ){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Sessão ja foi inicializada!");
-        }
-
         Pauta pauta = sessionService.startSession ( session );
         {
             Gson gson = new Gson ( );
@@ -57,10 +49,6 @@ public class PautaController {
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity <?> savePauta( @PathVariable ("name") String name)
             throws ParseException, IllegalAccessException {
-
-        if(! service.validateName ( name ) ){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Pauta com nome ja cadastrado!");
-        }
 
         Pauta pauta = new Pauta ( null,name,0,0 );
         pauta=service.save ( pauta );
