@@ -6,63 +6,89 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ServerErrorException;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.Date;
+import java.util.DuplicateFormatFlagsException;
 
 @ControllerAdvice
-public class ErrorContoller {
+@RestController
+public class ErrorContoller  {
 
-    @ExceptionHandler(value = { HttpClientErrorException.Conflict.class })
-    protected ResponseEntity<Response> handleConflictException(HttpClientErrorException exception,
-                                                                  WebRequest request) {
 
-        Response response = new Response();
-        response.addErrorMsgToResponse(exception.getLocalizedMessage());
+    @ExceptionHandler ( value = {DuplicateFormatFlagsException.class} )
+    protected ResponseEntity < Response > duplicateFormatFlagsException ( DuplicateFormatFlagsException exception ,
+                                                                    WebRequest request ) {
 
-        return ResponseEntity.status( HttpStatus.CONFLICT).body(response);
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
+
+        return ResponseEntity.status ( HttpStatus.CONFLICT ).body ( response );
     }
 
-    @ExceptionHandler(value = { HttpMessageNotReadableException.class, JsonParseException.class })
-    protected ResponseEntity<Response> handleMessageNotReadableException(HttpMessageNotReadableException
-                                                                                    exception, WebRequest request) {
+    @ExceptionHandler ( value = {HttpClientErrorException.Conflict.class} )
+    protected ResponseEntity < Response > handleConflictException ( HttpClientErrorException exception ,
+                                                                    WebRequest request ) {
 
-        Response response = new Response();
-        response.addErrorMsgToResponse(exception.getLocalizedMessage());
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
 
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(response);
+        return ResponseEntity.status ( HttpStatus.CONFLICT ).body ( response );
     }
 
-    @ExceptionHandler(value = { HttpClientErrorException.TooManyRequests.class })
-    protected ResponseEntity<Response> handleTooManyRequestException(HttpClientErrorException exception,
-                                                                        WebRequest request) {
+    @ExceptionHandler ( value = {HttpMessageNotReadableException.class , JsonParseException.class} )
+    protected ResponseEntity < Response > handleMessageNotReadableException ( HttpMessageNotReadableException
+                                                                                      exception , WebRequest request ) {
 
-        Response response = new Response();
-        response.addErrorMsgToResponse(exception.getLocalizedMessage());
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
 
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+        return ResponseEntity.status ( HttpStatus.UNPROCESSABLE_ENTITY ).body ( response );
     }
 
-    @ExceptionHandler(value = { ServerErrorException.class })
-    protected ResponseEntity<Response> handleAPIException(ServerErrorException exception,
-                                                             WebRequest request) {
+    @ExceptionHandler ( value = {HttpClientErrorException.TooManyRequests.class} )
+    protected ResponseEntity < Response > handleTooManyRequestException ( HttpClientErrorException exception ,
+                                                                          WebRequest request ) {
 
-        Response response = new Response();
-        response.addErrorMsgToResponse(exception.getLocalizedMessage());
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        return ResponseEntity.status ( HttpStatus.TOO_MANY_REQUESTS ).body ( response );
+    }
+
+    @ExceptionHandler ( value = {ServerErrorException.class} )
+    protected ResponseEntity < Response > handleAPIException ( ServerErrorException exception ,
+                                                               WebRequest request ) {
+
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
+
+        return ResponseEntity.status ( HttpStatus.INTERNAL_SERVER_ERROR ).body ( response );
     }
 
     protected static class Response {
         private String message;
+        private String description;
+        private Date date;
 
+        public Response ( Date date , String message , String description ) {
+            this.date = date;
+            this.description = description;
+            this.message = message;
+        }
 
+        public Response ( ) {
+        }
 
-        public String getMessage() {
+        public String getMessage ( ) {
             return message;
         }
 
-        public void addErrorMsgToResponse(String message) {
+        public void addErrorMsgToResponse ( String message ) {
             this.message = message;
         }
     }
