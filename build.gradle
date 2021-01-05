@@ -29,6 +29,8 @@ dependencies {
 	compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.7'
 	compile 'com.rabbitmq:amqp-client:5.10.0'
 	compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.3.0'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 }
 
 test {
