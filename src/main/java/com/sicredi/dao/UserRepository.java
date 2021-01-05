@@ -13,5 +13,8 @@ public interface UserRepository extends MongoRepository < User, String > {
     @Query ("{'CPF': ?0}")
     Optional < User > findByCPF ( String CPF );
 
+    @Query ("{'CPF': ?0}")
+    List < User > findCPF ( String CPF );
+
     User save ( User user );
 }

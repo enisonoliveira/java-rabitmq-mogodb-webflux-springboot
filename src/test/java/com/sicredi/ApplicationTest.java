@@ -1,18 +1,15 @@
 package com.sicredi;
 
-import com.sicredi.model.Pauta;
+import com.sicredi.model.Ruling;
 import com.sicredi.model.Session;
-import com.sicredi.model.SessionVoting;
 import com.sicredi.model.User;
-import com.sicredi.service.PautaService;
+import com.sicredi.service.RulingService;
 import com.sicredi.service.SessionService;
 import com.sicredi.service.SessionVotingService;
 import com.sicredi.service.UserService;
 import org.junit.Before;
-import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +22,17 @@ import java.text.ParseException;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.MethodOrderer.*;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest( includeFilters = {@ComponentScan.Filter(
 		type = FilterType.ASSIGNABLE_TYPE,
-		classes = {SessionService.class, PautaService.class,UserService.class, SessionVotingService.class})})
+		classes = {SessionService.class, RulingService.class,UserService.class, SessionVotingService.class})})
 public class ApplicationTest {
 
 	Logger logger = LoggerFactory.getLogger( ApplicationTest.class);
 
 	@Autowired
-	private PautaService pautaService;
+	private RulingService rulingService;
 
 	@Autowired
 	private SessionService sessionService;
@@ -63,9 +59,9 @@ public class ApplicationTest {
 
 	@Test
 	void testRepoPauta() {
-		Pauta pauta = new Pauta ( null,"md5mfkdourtumsfarpskam2rnnit"+random,0,0 );
-		pauta=pautaService.save ( pauta );
-		assertEquals ( "md5mfkdourtumsfarpskam2rnnit"+random,pauta.getName () );
+		Ruling ruling = new Ruling ( null,"md5mfkdourtumsfarpskam2rnnit"+random,0,0 );
+		ruling = rulingService.save ( ruling );
+		assertEquals ( "md5mfkdourtumsfarpskam2rnnit"+random, ruling.getName () );
 	}
 
 	@Test
@@ -78,13 +74,13 @@ public class ApplicationTest {
 	@Test
 	void testRepoSession() throws ParseException, IllegalAccessException {
 
-		Pauta pauta = new Pauta ( null,"pauta de numero 2050"+random,0,0 );
-		pauta=pautaService.save ( pauta );
-		assertEquals ( "pauta de numero 2050"+random,pauta.getName () );
+		Ruling ruling = new Ruling ( null,"pauta de numero 2050"+random,0,0 );
+		ruling = rulingService.save ( ruling );
+		assertEquals ( "pauta de numero 2050"+random, ruling.getName () );
 
-		Session session = new Session (  null, new Date (  ), new Date (  ),pauta  ,false);
+		Session session = new Session (  null, new Date (  ), new Date (  ), ruling ,false);
 		session=sessionService.save ( session );
-		assertEquals ( pauta.get_id (), session.getPauta ().get_id ());
+		assertEquals ( ruling.get_id (), session.getPauta ().get_id ());
 	}
 
 	@Test
@@ -94,16 +90,16 @@ public class ApplicationTest {
 		user=userService.save ( user );
 		assertEquals ( "1"+random,user.getCPF () );
 
-		Pauta pauta = new Pauta ( null,"pauta 12412"+random,0,0 );
-		pauta=pautaService.save ( pauta );
-		assertEquals ( "pauta 12412"+random,pauta.getName () );
+		Ruling ruling = new Ruling ( null,"pauta 12412"+random,0,0 );
+		ruling = rulingService.save ( ruling );
+		assertEquals ( "pauta 12412"+random, ruling.getName () );
 
-		Session session = new Session (  null, new Date (  ), new Date (  ),pauta , false);
+		Session session = new Session (  null, new Date (  ), new Date (  ), ruling , false);
 		session=sessionService.save ( session );
 
-		pauta=sessionService.startSession ( session );
+		ruling =sessionService.startSession ( session );
 
-		assertEquals ( pauta.get_id (), session.getPauta ().get_id ());
+		assertEquals ( ruling.get_id (), session.getPauta ().get_id ());
 
 	}
 

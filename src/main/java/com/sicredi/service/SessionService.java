@@ -1,9 +1,7 @@
 package com.sicredi.service;
 
-import com.google.gson.Gson;
 import com.sicredi.dao.SessionRepository;
-import com.sicredi.jms.producer.Producer;
-import com.sicredi.model.Pauta;
+import com.sicredi.model.Ruling;
 import com.sicredi.model.Session;
 import com.sicredi.model.SessionVoting;
 import org.slf4j.Logger;
@@ -30,7 +28,7 @@ public class SessionService {
     private SessionVotingService sessionVotingService;
 
     @Autowired
-    private  PautaService pautaService;
+    private RulingService rulingService;
 
 
     private Logger logger;
@@ -41,7 +39,7 @@ public class SessionService {
 
 
     @Async
-    public  Pauta startSession(Session session) throws IllegalAccessException, ParseException {
+    public Ruling startSession( Session session) throws IllegalAccessException, ParseException {
 
         //delay de um minuto para a o termino da votacao
         initSession ( session );
@@ -54,19 +52,19 @@ public class SessionService {
         finishSession ( session );
         logger.info("Finished process.");
        //Faz a apurçao da votacao
-        Pauta pauta = pauta ( session );
+        Ruling ruling = pauta ( session );
 
-        return pauta;
+        return ruling;
     }
 
-    private Pauta pauta( Session session ) throws IllegalAccessException {
+    private Ruling pauta( Session session ) throws IllegalAccessException {
 
         int totalVoteNotFavorable=0;
         int totalVoteFavorable=0;
 
         List < SessionVoting > votinOptional = sessionVotingService.getSessionVotin (  session.get_id () );
-        Optional<Pauta> pautaOptional=pautaService.findOne ( session.getPauta ().get_id ());
-        Pauta pauta=pautaOptional.get ();
+        Optional< Ruling > pautaOptional= rulingService.findOne ( session.getPauta ().get_id ());
+        Ruling ruling =pautaOptional.get ();
 
         for ( SessionVoting votin:votinOptional ) {
             if(votin.isVote ()){
@@ -75,11 +73,11 @@ public class SessionService {
                 totalVoteNotFavorable++;
             }
         }
-        pauta.setTotalVoteNotFavorable ( totalVoteNotFavorable );
-        pauta.setTotalVoteFavorable ( totalVoteFavorable );
-        pautaService.update ( pauta );
+        ruling.setTotalVoteNotFavorable ( totalVoteNotFavorable );
+        ruling.setTotalVoteFavorable ( totalVoteFavorable );
+        rulingService.update ( ruling );
 
-        return pauta;
+        return ruling;
     }
 
     public Session save ( Session session ) throws ParseException, IllegalAccessException {

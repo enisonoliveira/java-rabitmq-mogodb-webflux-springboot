@@ -52,8 +52,14 @@ public class UserService {
         return repository.findById(_id);
     }
 
-    public Optional<User> findByCPF(String CPF) {
-        return repository.findByCPF ( CPF );
+    public Optional<User> findByCPF(String CPF) throws Exception {
+
+        try {
+            return repository.findByCPF ( CPF );
+        }catch (Exception e){
+            return repository.findById (  repository.findCPF ( CPF ).get ( 0 ).get_id ());
+        }
+
     }
 
     public boolean existsById ( String _id ) {
@@ -66,8 +72,7 @@ public class UserService {
             Optional < User > usersUserOptional = repository.findByCPF ( CPF );
             return usersUserOptional.isPresent ();
         }catch (Exception e){
-            new DuplicateFormatFlagsException ( "Mais de um mesmo CPF cadastrado!" );
+            throw  new  DuplicateFormatFlagsException ( "Mais de um mesmo CPF cadastrado!" );
         }
-        return false;
     }
 }

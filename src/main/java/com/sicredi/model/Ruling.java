@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "pautas")
-public class Pauta {
+public class Ruling {
 
     @Id
     private String _id;
@@ -21,9 +21,9 @@ public class Pauta {
     @Field("total_vote_not_favorable")
     private int totalVoteNotFavorable;
 
-    public Pauta(){}
+    public Ruling (){}
 
-    public Pauta(String _id, String name, int totalVoteFavorable, int totalVoteNotFavorable) {
+    public Ruling ( String _id, String name, int totalVoteFavorable, int totalVoteNotFavorable) {
         this._id = _id;
         this.name = name;
         this.totalVoteFavorable = totalVoteFavorable;

@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping (value = "/cpf/status/{CPF}")
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity < Mono <String>> statusCPF( @PathVariable ("CPF") String CPF)
-            throws IllegalAccessException {
+            throws Exception {
 
         Optional <User> user = userService.findByCPF ( CPF );
         Gson gson = new Gson ();

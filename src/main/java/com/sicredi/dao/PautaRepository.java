@@ -1,15 +1,15 @@
 package com.sicredi.dao;
 
-import com.sicredi.model.Pauta;
+import com.sicredi.model.Ruling;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 
-public interface PautaRepository extends MongoRepository < Pauta, String > {
+public interface PautaRepository extends MongoRepository < Ruling, String > {
 
-    Pauta save(Pauta pauta);
+    Ruling save( Ruling ruling );
 
     @Query ("{'name': ?0}")
-    List <Pauta> findName( String name);
+    List < Ruling > findName( String name);
 }

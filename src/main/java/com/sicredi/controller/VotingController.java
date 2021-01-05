@@ -42,7 +42,7 @@ public class VotingController {
     @PostMapping (value = "/save")
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity < Mono <String> > saveSession( @RequestParam  String CPF , @RequestParam String session_id
-             , @RequestParam String voting) throws ParseException, IllegalAccessException {
+             , @RequestParam String voting) throws Exception {
 
         Optional < Session > sessionOptional = sessionService.findById ( session_id );
         Session session = sessionOptional.get ();
