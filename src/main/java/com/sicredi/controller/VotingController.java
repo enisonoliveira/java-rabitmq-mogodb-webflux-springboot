@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.text.ParseException;
 import java.util.List;
@@ -40,8 +41,8 @@ public class VotingController {
 
     @PostMapping (value = "/save")
     @ResponseStatus ( HttpStatus.OK)
-    public ResponseEntity <?> saveSession(  @RequestParam  String CPF ,@RequestParam String session_id
-             ,@RequestParam String voting) throws ParseException, IllegalAccessException {
+    public ResponseEntity < Mono <String> > saveSession( @RequestParam  String CPF , @RequestParam String session_id
+             , @RequestParam String voting) throws ParseException, IllegalAccessException {
 
         Optional < Session > sessionOptional = sessionService.findById ( session_id );
         Session session = sessionOptional.get ();
@@ -59,14 +60,24 @@ public class VotingController {
             }
              sessionVoting =new SessionVoting ( null , user , session , votingUser );
             if( sessionVotingService.validVoteUserExists( user.get_id (), session_id )){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário já votou nessa sessão!");
+                return ResponseEntity
+                        .status ( HttpStatus.UNAUTHORIZED )
+                        .header ( "X-Reason" , "user-invalid" )
+                        .body ( Mono.just ( "Usuário já votou nessa sessão!" ) );
+
             }
             if( ! sessionService.compareIntervalDate(session_id )){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sessão encerrada!");
+                return ResponseEntity
+                        .status ( HttpStatus.UNAUTHORIZED )
+                        .header ( "X-Reason" , "user-invalid" )
+                        .body ( Mono.just ( "Sessão encerrada!" ) );
             }
             registerVotin ( sessionVoting );
         }
-        return ResponseEntity.ok("OK!");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("X-Reason", "ok")
+                .body(Mono.just("ok"));
     }
 
     private void registerVotin  ( SessionVoting sessionVoting ) throws IllegalAccessException {
