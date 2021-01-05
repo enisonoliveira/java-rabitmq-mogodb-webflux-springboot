@@ -1,5 +1,7 @@
 
 Documentação completa aqui!
+
+
 [doc sicredi.pdf](https://github.com/enisonoliveira/sicrediteste/files/5765724/doc.sicredi.pdf)
 
 <h6 style="font-size:8px">
@@ -45,6 +47,11 @@ Confs Tomcat
 
 server.port=8080
 server.servlet.context-path=/pauta
+Swegger
+
+http://localhost:8080/v1/pauta/swagger-ui.html
+
+![Captura de tela de 2021-01-05 00-04-19](https://user-images.githubusercontent.com/24898873/103602028-ce466b00-4ee9-11eb-8d32-3cf4c434788f.png)
 
 
 Inicializando o projeto
