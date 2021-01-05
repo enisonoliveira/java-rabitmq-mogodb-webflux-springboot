@@ -30,6 +30,17 @@ public class ErrorContoller  {
         return ResponseEntity.status ( HttpStatus.CONFLICT ).body ( response );
     }
 
+
+    @ExceptionHandler ( value = {IllegalAccessException.class} )
+    protected ResponseEntity < Response > illegalAccessException ( IllegalAccessException exception ,
+                                                                          WebRequest request ) {
+
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
+
+        return ResponseEntity.status ( HttpStatus.CONFLICT ).body ( response );
+    }
+
     @ExceptionHandler ( value = {HttpClientErrorException.Conflict.class} )
     protected ResponseEntity < Response > handleConflictException ( HttpClientErrorException exception ,
                                                                     WebRequest request ) {
