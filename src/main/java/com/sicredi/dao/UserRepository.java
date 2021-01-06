@@ -10,11 +10,9 @@ import java.util.Optional;
 public interface UserRepository extends MongoRepository < User, String > {
 
     Optional < User > findById ( String _id );
-    @Query ("{'CPF': ?0}")
-    Optional < User > findByCPF ( String CPF );
 
     @Query ("{'CPF': ?0}")
-    List < User > findCPF ( String CPF );
+    Optional < User > findByCPF ( String CPF );
 
     User save ( User user );
 }

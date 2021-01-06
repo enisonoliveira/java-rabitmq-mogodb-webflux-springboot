@@ -58,14 +58,10 @@ public class PautaService implements PautaImpl {
 
     public boolean validateName(String name){
 
-        List< Pauta > pautas =findName ( name );
-        if( pautas ==null|| pautas.size ()==0){
-            return true;
-        }
-        return false;
+       return findName ( name ).isPresent ();
     }
 
-    public List< Pauta > findName ( String name ) {
+    public Optional< Pauta > findName ( String name ) {
         return repository.findName ( name );
     }
 }

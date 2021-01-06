@@ -15,5 +15,5 @@ public interface PautaImpl {
 
     public Pauta update ( Pauta pauta);
 
-    public List < Pauta > findName ( String name );
+    public Optional < Pauta > findName ( String name );
 }
