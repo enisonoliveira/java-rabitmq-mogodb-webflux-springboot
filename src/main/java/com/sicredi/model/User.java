@@ -16,12 +16,12 @@ public class User {
     private String CPF;
 
     @Field ( "able_to_vote" )
-    private boolean ABLE_TO_VOTE;
+    private boolean ableToVote;
 
-    public User ( String _id , String CPF , boolean ABLE_TO_VOTE ) {
+    public User ( String _id , String CPF , boolean ableToVote ) {
         this._id = _id;
         this.CPF = CPF;
-        this.ABLE_TO_VOTE = ABLE_TO_VOTE;
+        this.ableToVote = ableToVote;
     }
 
     public String get_id ( ) {
@@ -40,11 +40,11 @@ public class User {
         this.CPF = CPF;
     }
 
-    public boolean isABLE_TO_VOTE ( ) {
-        return ABLE_TO_VOTE;
+    public boolean isAbleToVote ( ) {
+        return ableToVote;
     }
 
-    public void setABLE_TO_VOTE ( boolean ABLE_TO_VOTE ) {
-        this.ABLE_TO_VOTE = ABLE_TO_VOTE;
+    public void setAbleToVote ( boolean ableToVote ) {
+        this.ableToVote = ableToVote;
     }
 }

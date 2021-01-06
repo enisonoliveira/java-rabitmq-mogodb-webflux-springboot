@@ -4,6 +4,7 @@ import com.sicredi.dao.SessionRepository;
 import com.sicredi.model.Pauta;
 import com.sicredi.model.Session;
 import com.sicredi.model.SessionVoting;
+import com.sicredi.serviceimpl.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class SessionService {
+public class SessionService implements SessionImpl {
 
     @Autowired
     private SessionRepository repository;
@@ -57,7 +58,7 @@ public class SessionService {
         return pauta;
     }
 
-    private Pauta pauta( Session session ) throws IllegalAccessException {
+    public Pauta pauta( Session session ) throws IllegalAccessException {
 
         int totalVoteNotFavorable=0;
         int totalVoteFavorable=0;
@@ -86,7 +87,7 @@ public class SessionService {
         return session;
     }
 
-    private Session initSession ( Session session ) throws ParseException, IllegalAccessException {
+    public Session initSession ( Session session ) throws ParseException, IllegalAccessException {
 
         session.setStartSession ( getDateStartSession ( ) );
         session.setEndSession ( getDateEndSession ( session.getStartSession ( ) ) );
@@ -97,7 +98,7 @@ public class SessionService {
     }
 
 
-    private Session finishSession ( Session session ) throws ParseException, IllegalAccessException {
+    public Session finishSession ( Session session ) throws ParseException, IllegalAccessException {
 
         session.setFinish_session ( true );
         repository.save ( session );
@@ -119,11 +120,11 @@ public class SessionService {
 
     }
 
-    private Date getDateStartSession ( ) throws ParseException, IllegalAccessException {
+    public Date getDateStartSession ( ) throws ParseException, IllegalAccessException {
         return getDateNow ( );
     }
 
-    private Date getDateNow ( ) {
+    public Date getDateNow ( ) {
         //America/Sao_Paulo
         ZoneId z = ZoneId.of ( "America/Sao_Paulo" );
         ZonedDateTime dateTime = ZonedDateTime.now ( z );
@@ -137,7 +138,7 @@ public class SessionService {
         return date;
     }
 
-    private Date getDateEndSession ( Date startSession ) throws ParseException, IllegalAccessException {
+    public Date getDateEndSession ( Date startSession ) throws ParseException, IllegalAccessException {
 
         Date endDate = new Date ( getDateStartSession ( ).getTime ( ) + ( 60000 ) );
         return endDate;

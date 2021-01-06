@@ -23,7 +23,7 @@ public class Consumer {
 
     @RabbitListener (queues = "voting")
     public void listen(String message) throws IllegalAccessException {
-        System.out.println ( "=====Voting computed=====" );
+        logger.info ( "=====Voting computed=====" );
         Gson gson = new Gson ();
 
         SessionVoting votin=gson.fromJson ( message, SessionVoting.class );

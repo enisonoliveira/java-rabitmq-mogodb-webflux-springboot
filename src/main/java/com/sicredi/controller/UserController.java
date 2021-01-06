@@ -22,13 +22,13 @@ public class UserController {
     @PostMapping (value = "/save/{CPF}")
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity < Mono <String> > save( @PathVariable ("CPF") String CPF)
-            throws IllegalAccessException {
+            throws Exception {
 
         User user = new User ( null,CPF,true );
         user=userService.save ( user );
 
         return   ResponseEntity
-                .status(HttpStatus.OK)
+                .status( HttpStatus.CREATED)
                 .header("X-Reason", "ok")
                 .body(Mono.just("ok"));
     }
@@ -41,13 +41,8 @@ public class UserController {
         Optional <User> user = userService.findByCPF ( CPF );
         Gson gson = new Gson ();
 
-        if( !user.isPresent ()) {
-            return ResponseEntity
-                    .status ( HttpStatus.UNAUTHORIZED )
-                    .header ( "X-Reason" , "user-invalid" )
-                    .body ( Mono.just ( "Usuráio com CPF nao cadastrado em nossa base!" ) );
-        }
         String userJson=gson.toJson ( user.get (  ));
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header("X-Reason", "ok")

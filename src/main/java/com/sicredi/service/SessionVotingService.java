@@ -2,6 +2,7 @@ package com.sicredi.service;
 
 import com.sicredi.dao.SessionVotinRepository;
 import com.sicredi.model.SessionVoting;
+import com.sicredi.serviceimpl.SessionVotinImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +13,13 @@ import java.util.List;
 
 
 @Service
-public class SessionVotingService {
+public class SessionVotingService implements SessionVotinImpl {
 
     @Autowired
     private SessionVotinRepository repository;
 
     @Autowired
     private SessionService sessionService;
-
-
 
     private Logger logger;
 
@@ -47,7 +46,7 @@ public class SessionVotingService {
         return sessionVotin;
     }
 
-    private boolean validateTimeSession ( String session_id ) throws IllegalAccessException {
+    public boolean validateTimeSession ( String session_id ) throws IllegalAccessException {
 
         if ( session_id.equals ( "" )  || session_id==null){
             throw new IllegalAccessException ( " : Certifique de passar um usuario e sessao valida! " );
@@ -67,7 +66,7 @@ public class SessionVotingService {
         return existsVotinSession(user_id,session_id);
     }
 
-    private boolean existsVotinSession ( String user_id , String session_id ) {
+    public boolean existsVotinSession ( String user_id , String session_id ) {
 
         List < SessionVoting > sessionVotin = repository.findSessionVotinUser ( user_id , session_id );
 
@@ -97,6 +96,4 @@ public class SessionVotingService {
         } );
         return  list;
     }
-
-
 }

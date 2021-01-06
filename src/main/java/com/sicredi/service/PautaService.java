@@ -2,6 +2,7 @@ package com.sicredi.service;
 
 import com.sicredi.dao.PautaRepository;
 import com.sicredi.model.Pauta;
+import com.sicredi.serviceimpl.PautaImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PautaService {
+public class PautaService implements PautaImpl {
 
     @Autowired
     private PautaRepository repository;
@@ -36,7 +37,7 @@ public class PautaService {
         return pauta;
     }
 
-    protected Pauta update ( Pauta pauta ) {
+    public Pauta update ( Pauta pauta ) {
 
         if( pauta.get_id () == null || pauta.get_id ().equals ( "" )
                 || pauta.getName ().equals ( "" ) || pauta.getName ()==null){
@@ -51,46 +52,20 @@ public class PautaService {
         return pauta;
     }
 
-    public Pauta delete ( Pauta pauta ) {
-
-        if( pauta.get_id () == null || pauta.get_id ().equals ( "" )){
-            logger.error ( ": Dados inválidos  para operação!" );
-            throw  new DuplicateFormatFlagsException ( ": Operação não permitida!" );
-        }
-        if (!validateId( pauta.get_id ())){
-            logger.error ( ": Pauta desconhecida no sistema!" );
-            throw  new DuplicateFormatFlagsException ( ": Operação não permitida!" );
-        }
-        repository.delete ( pauta );
-        logger.info ( ": Pauta deletada " );
-        logger.info ( ": Operação delete realizada com sucesso!");
-        logger.info ( ": ID:"+ pauta.get_id () );
-
-        return pauta;
-    }
-
-
-    protected Optional < Pauta > findOne( String _id) {
+    public Optional < Pauta > findOne( String _id) {
        return repository.findById(_id);
     }
 
     public boolean validateName(String name){
 
         List< Pauta > pautas =findName ( name );
-
         if( pautas ==null|| pautas.size ()==0){
             return true;
         }
-
         return false;
     }
 
-    private boolean validateId(String _id ){
-
-        return repository.existsById ( _id );
-    }
-
-    protected List< Pauta > findName ( String name ) {
+    public List< Pauta > findName ( String name ) {
         return repository.findName ( name );
     }
 }

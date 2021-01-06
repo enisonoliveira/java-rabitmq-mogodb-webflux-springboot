@@ -46,23 +46,16 @@ public class VotingController {
 
         Optional < Session > sessionOptional = sessionService.findById ( session_id );
         Session session = sessionOptional.get ();
-        User user=null;
-        SessionVoting sessionVoting =null;
+
         {
             boolean votingUser= voting.equals ( "sim" )? true:false;
-            if ( ! userService.noExistsCPF ( CPF ) ) {
-                Optional < User > users = userService.findByCPF ( CPF );
-                user = users.get (  );
-            } else {
-                //se não existe cadastra um novo usuário com cpf informado
-                user = new User ( null , CPF , true );
-                user = userService.save ( user );
-            }
-             sessionVoting =new SessionVoting ( null , user , session , votingUser );
+            User user = userService.saveSearchUser(CPF);
+            SessionVoting  sessionVoting =new SessionVoting ( null , user , session , votingUser );
             registerVotin ( sessionVoting );
         }
+
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status( HttpStatus.CREATED)
                 .header("X-Reason", "ok")
                 .body(Mono.just("ok"));
     }
@@ -71,11 +64,7 @@ public class VotingController {
 
         //opicional para concorrencia de votação com mensageria ou direto no banco
         Gson gson = new Gson ();
-        if( messages.equals ( "disable" )) {
-            sessionVotingService.save ( sessionVoting );
-        }else{
-            rabbitMQSender.sendVotin ( gson.toJson ( sessionVoting ) );
-        }
+         sessionVotingService.save ( sessionVoting );
     }
 
 }

@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface SessionVotinRepository extends MongoRepository< SessionVoting, String> {
 
+    SessionVoting save( SessionVoting sessionVoting );
+
     Optional< SessionVoting > findById( String _id);
 
     @Query("{'user._id' : ?0,'session._id' : ?1}")
@@ -17,6 +19,6 @@ public interface SessionVotinRepository extends MongoRepository< SessionVoting, 
     @Query("{'session._id' : ?0}")
     List< SessionVoting > findSessionVotin( String session_id);
 
-    SessionVoting save( SessionVoting sessionVoting );
+
 
 }
