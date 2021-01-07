@@ -13,17 +13,10 @@ public class SessionResponse extends SessionData {
         super ( id , startSession , endSession , pauta , init_session , finish_session );
     }
 
-    public SessionResponse(){
 
-    }
+    public String toSessionJson( SessionResponse response){
 
-    public String toSessionJson( Session response){
-
-        SessionResponse session = new SessionResponse (response.getId ()
-                ,response.getStartSession (),response.getEndSession (),
-                response.getPauta (),response.isInit_session (),response.getFinish_session ());
-        Gson gson = new Gson ();
-
-        return gson.toJson ( session );
+              Gson gson = new Gson ();
+        return gson.toJson ( response );
     }
 }

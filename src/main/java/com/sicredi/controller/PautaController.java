@@ -49,11 +49,13 @@ public class PautaController {
             rabbitMQSender.sendAll ( "Finish job session " );
             rabbitMQSender.sendAll ( gson.toJson ( pauta ) );
         }
-        PautaResponse pautaResponse = new PautaResponse (  );
+        PautaResponse pautaResponse = new PautaResponse ( pauta.getId (),pauta.getName ()
+                ,pauta.getTotalVoteFavorable (),pauta.getTotalVoteNotFavorable () );
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header("X-Reason", "ok")
-                .body(Mono.just( pautaResponse.toPautaJson ( pauta )));
+                .body(Mono.just( pautaResponse.toPautaJson ( pautaResponse )));
     }
 
     @PostMapping (value = "/save/{name}")
@@ -69,11 +71,14 @@ public class PautaController {
 
         rabbitMQSender.sendAll ("pauta cadastrada com suscesso!");
 
-        SessionResponse sessionResponse  = new SessionResponse (  );
+        SessionResponse sessionResponse  = new SessionResponse ( session.getId (),session.getStartSession ()
+                ,session.getEndSession (),session.getPauta (),session.isInit_session ()
+                ,session.getFinish_session ()  );
+
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .status(HttpStatus.CREATED)
                 .header("X-Reason", "ok")
-                .body(Mono.just( sessionResponse.toSessionJson ( session )));
+                .body(Mono.just( sessionResponse.toSessionJson ( sessionResponse )));
 
     }
 }

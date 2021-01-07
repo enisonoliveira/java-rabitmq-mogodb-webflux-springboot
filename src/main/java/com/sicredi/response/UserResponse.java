@@ -12,12 +12,9 @@ public class UserResponse  extends UserData {
 
     public  UserResponse(){}
 
-    public String userToJson( User user){
+    public String userToJson( UserResponse user){
 
         Gson gson = new Gson ();
-
-        UserResponse userResponse = new UserResponse ( user.getId (),user.getCPF (),user.isAbleToVote () );
-
-      return    gson.toJson ( userResponse );
+      return    gson.toJson ( user );
     }
 }

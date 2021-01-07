@@ -40,11 +40,11 @@ public class UserController {
             throws Exception {
 
         Optional <User> user = userService.findByCPF ( CPF );
-        UserResponse response = new UserResponse (  );
+        UserResponse response = new UserResponse (  user.get ().getId (), user.get ().getCPF (), user.get ().isAbleToVote ());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header("X-Reason", "ok")
-                .body(Mono.just(response.userToJson ( user.get () )));
+                .body(Mono.just(response.userToJson ( response )));
     }
 }

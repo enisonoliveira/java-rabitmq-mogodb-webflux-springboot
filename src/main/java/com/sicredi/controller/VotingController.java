@@ -43,12 +43,10 @@ public class VotingController {
 
         Optional < Session > sessionOptional = sessionService.findById ( session_id );
         Session session = sessionOptional.get ();
-        System.out.println (" id da sessap "+ session.getId () );
         {
             boolean votingUser= voting.equals ( "sim" )? true:false;
             User user = userService.saveSearchUser(CPF);
             SessionVotinRequest sessionVoting =new SessionVotinRequest ( null, user , session , votingUser );
-            System.out.println (" id da sessap "+ sessionVoting.getId () );
             registerVotin ( sessionVoting );
         }
 

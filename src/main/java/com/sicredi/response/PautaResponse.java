@@ -9,14 +9,9 @@ public class PautaResponse extends PautaData {
         super ( id , name , totalVoteFavorable , totalVoteNotFavorable );
     }
 
-    public String toPautaJson(Pauta response) {
-        Pauta pauta = new Pauta ( response.getId (),response.getName ()
-                ,response.getTotalVoteFavorable (),response.getTotalVoteFavorable () );
-        Gson gson = new Gson ();
-        return gson.toJson ( pauta );
+    public String toPautaJson(PautaResponse response) {
 
-    }
-
-    public PautaResponse(){
+       Gson gson = new Gson ();
+        return gson.toJson ( response );
     }
 }

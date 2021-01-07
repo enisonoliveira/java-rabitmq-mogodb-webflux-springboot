@@ -2,7 +2,6 @@ package com.sicredi;
 
 import com.sicredi.model.Pauta;
 import com.sicredi.model.Session;
-import com.sicredi.model.SessionVoting;
 import com.sicredi.model.User;
 import com.sicredi.request.PautaRequest;
 import com.sicredi.request.SessionRequest;
@@ -12,32 +11,38 @@ import com.sicredi.service.PautaService;
 import com.sicredi.service.SessionService;
 import com.sicredi.service.SessionVotingService;
 import com.sicredi.service.UserService;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
-import java.text.ParseException;
+import java.net.ServerSocket;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@DataMongoTest( includeFilters = {@ComponentScan.Filter(
-		type = FilterType.ASSIGNABLE_TYPE,
-		classes = {SessionService.class, PautaService.class,UserService.class, SessionVotingService.class})})
+//@RunWith(SpringRunner.class)
+//@DataMongoTest( includeFilters = {@ComponentScan.Filter(
+//		type = FilterType.ASSIGNABLE_TYPE,
+//		classes = {SessionService.class, PautaService.class,UserService.class, SessionVotingService.class})})
 
-//@RunWith( JUnit4.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class ApplicationTest {
 
 	Logger logger = LoggerFactory.getLogger( ApplicationTest.class);
@@ -53,6 +58,9 @@ public class ApplicationTest {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private MockMvc mockMvc;
 
 	private int random;
 
@@ -198,6 +206,35 @@ public class ApplicationTest {
 
 		assertEquals ( sessionVotingService.validateTimeSession ( session.getId () ) ,true );
 
+	}
+
+	@Test
+	 void testUserController() throws Exception {
+
+		mockMvc.perform(get("/user/cpf/status/"+random)
+				.accept( MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());
+
+		mockMvc.perform(get("/user/cpf/status/"+123123)
+				.accept( MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound ());
+
+		mockMvc.perform(post("/user/save/"+random+"14234234234234234234")
+				.accept( MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated ());
+
+		mockMvc.perform(get("/user/save/"+random)
+				.accept( MediaType.APPLICATION_JSON))
+				.andExpect(status().isNotFound ());
+
+	}
+
+	@Test
+	void testPautaController() throws Exception {
+
+		mockMvc.perform(post ("/session/save/"+random+"teste controller")
+				.accept( MediaType.APPLICATION_JSON))
+				.andExpect(status().isCreated ());
 	}
 
 }

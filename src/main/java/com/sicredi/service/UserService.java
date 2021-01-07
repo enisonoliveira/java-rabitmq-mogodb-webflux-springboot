@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.DuplicateFormatFlagsException;
 import java.util.Optional;
 
 @Service
@@ -37,7 +38,7 @@ public class UserService implements UserImpl {
     public boolean noExistCPF( String CPF) throws Exception {
 
         if(repository.findByCPF ( CPF ).isPresent ()){
-            throw  new Exception ( "CPF já existente na base de dados!" );
+            throw  new DuplicateFormatFlagsException ( "CPF já existente na base de dados!" );
         }
         return false;
     }
