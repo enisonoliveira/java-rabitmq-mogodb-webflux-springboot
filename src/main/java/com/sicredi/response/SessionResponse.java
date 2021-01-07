@@ -13,7 +13,6 @@ public class SessionResponse extends SessionData {
         super ( id , startSession , endSession , pauta , init_session , finish_session );
     }
 
-
     public String toSessionJson( SessionResponse response){
 
               Gson gson = new Gson ();
