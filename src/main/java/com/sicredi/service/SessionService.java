@@ -4,10 +4,8 @@ import com.sicredi.dao.SessionRepository;
 import com.sicredi.model.Pauta;
 import com.sicredi.model.Session;
 import com.sicredi.model.SessionVoting;
-import com.sicredi.request.PautaRequest;
 import com.sicredi.request.SessionRequest;
 import com.sicredi.serviceimpl.SessionImpl;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,8 +110,6 @@ public class SessionService implements SessionImpl {
         return session;
     }
 
-
-
     public boolean compareIntervalDate ( String _id ) throws Exception {
 
         Optional < Session > optionalSession = findById ( _id );
@@ -171,6 +167,5 @@ public class SessionService implements SessionImpl {
     public Optional < Session > findPautaId ( String pauta_id ) {
         return repository.findPautaId ( pauta_id );
     }
-
 
 }

@@ -44,7 +44,9 @@ public class Session {
         this.finisSession = finisSession;
     }
 
-    public Session ( String _id, Date startSession , Date endSession , Pauta pauta , boolean init_session, boolean finish_session ) {
+    public Session ( String _id,
+                     Date startSession , Date endSession , Pauta pauta
+            , boolean initSession, boolean finisSession ) {
         this.startSession = null;
         this.endSession = null;
         this.pauta = pauta;
