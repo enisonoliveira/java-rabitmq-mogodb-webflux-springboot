@@ -223,7 +223,7 @@ public class ApplicationTest {
 	void testPautaController() throws Exception {
 
 		 mockMvc.perform(post ("/session/save/"+random+"teste controller")
-				.accept( (MediaType) content().contentType( MediaType.APPLICATION_JSON) ))
+				.accept( MediaType.APPLICATION_JSON) )
 				.andExpect(status().isCreated ())
 				.andReturn();;
 	}
