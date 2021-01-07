@@ -25,6 +25,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.net.ServerSocket;
 import java.time.Instant;
@@ -34,7 +35,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //@RunWith(SpringRunner.class)
 //@DataMongoTest( includeFilters = {@ComponentScan.Filter(
@@ -232,9 +233,10 @@ public class ApplicationTest {
 	@Test
 	void testPautaController() throws Exception {
 
-		mockMvc.perform(post ("/session/save/"+random+"teste controller")
-				.accept( MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated ());
+		 mockMvc.perform(post ("/session/save/"+random+"teste controller")
+				.accept( (MediaType) content().contentType( MediaType.APPLICATION_JSON) ))
+				.andExpect(status().isCreated ())
+				.andReturn();;
 	}
 
 }
