@@ -72,8 +72,8 @@ public class PautaController {
         rabbitMQSender.sendAll ("pauta cadastrada com suscesso!");
 
         SessionResponse sessionResponse  = new SessionResponse ( session.getId (),session.getStartSession ()
-                ,session.getEndSession (),session.getPauta (),session.isInit_session ()
-                ,session.getFinish_session ()  );
+                ,session.getEndSession (),session.getPauta (),session.isInitSession ()
+                ,session.isFinisSession ()  );
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)

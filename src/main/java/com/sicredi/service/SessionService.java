@@ -97,7 +97,7 @@ public class SessionService implements SessionImpl {
 
         session.setStartSession ( getDateStartSession ( ) );
         session.setEndSession ( getDateEndSession ( session.getStartSession ( ) ) );
-        session.setInit_session ( true );
+        session.setInitSession ( true );
         repository.save ( session );
 
         return session;
@@ -106,7 +106,7 @@ public class SessionService implements SessionImpl {
 
     public Session finishSession ( Session session ) throws ParseException, IllegalAccessException {
 
-        session.setFinish_session ( true );
+        session.setFinisSession ( true );
         repository.save ( session );
 
         return session;
@@ -154,7 +154,7 @@ public class SessionService implements SessionImpl {
 
         Optional<Session> sessionOptional=findById ( sesssion_id );
         Session session=sessionOptional.get ();
-        return session.isInit_session ();
+        return session.isInitSession ();
     }
 
     public Optional < Session > findById ( String id ) throws Exception {

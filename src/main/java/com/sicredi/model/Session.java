@@ -28,7 +28,23 @@ public class Session {
     @Field("finish_session")
     private boolean finisSession;
 
-    public Session ( String _id, Date startSession , Date endSession ,  Pauta pauta , boolean init_session,boolean finish_session ) {
+    public boolean isInitSession ( ) {
+        return initSession;
+    }
+
+    public void setInitSession ( boolean initSession ) {
+        this.initSession = initSession;
+    }
+
+    public boolean isFinisSession ( ) {
+        return finisSession;
+    }
+
+    public void setFinisSession ( boolean finisSession ) {
+        this.finisSession = finisSession;
+    }
+
+    public Session ( String _id, Date startSession , Date endSession , Pauta pauta , boolean init_session, boolean finish_session ) {
         this.startSession = null;
         this.endSession = null;
         this.pauta = pauta;
@@ -59,22 +75,6 @@ public class Session {
 
     public void setPauta ( Pauta pauta ) {
         this.pauta = pauta;
-    }
-
-    public boolean getFinish_session ( ) {
-        return finisSession;
-    }
-
-    public void setFinish_session ( boolean finish_session ) {
-        this.finisSession = finish_session;
-    }
-
-    public boolean isInit_session ( ) {
-        return initSession;
-    }
-
-    public void setInit_session ( boolean init_session ) {
-        this.initSession = init_session;
     }
 
     public String getId ( ) {

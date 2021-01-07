@@ -155,7 +155,7 @@ public class ApplicationTest {
 
 		pauta=	sessionService.startSession ( session );
 
-		assertEquals ( sessionService.finishSession ( session ).getFinish_session (),true);
+		assertEquals ( sessionService.finishSession ( session ).isFinisSession (),true);
 
 	}
 
