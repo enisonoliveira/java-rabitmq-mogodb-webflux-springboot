@@ -62,19 +62,19 @@ public class SessionData {
     }
 
     public boolean isInit_session ( ) {
-        return init_session;
+        return initSession;
     }
 
     public void setInit_session ( boolean init_session ) {
-        this.init_session = init_session;
+        this.initSession = init_session;
     }
 
     public boolean isFinish_session ( ) {
-        return finish_session;
+        return finishSession;
     }
 
     public void setFinish_session ( boolean finish_session ) {
-        this.finish_session = finish_session;
+        this.finishSession = finish_session;
     }
 
 }
