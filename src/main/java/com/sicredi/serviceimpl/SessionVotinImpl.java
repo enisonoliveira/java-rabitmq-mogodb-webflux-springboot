@@ -2,13 +2,14 @@ package com.sicredi.serviceimpl;
 
 import com.sicredi.model.SessionVoting;
 import com.sicredi.model.User;
+import com.sicredi.request.SessionVotinRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface SessionVotinImpl{
 
-    public SessionVoting save ( SessionVoting sessionVotin ) throws IllegalAccessException ;
+    public SessionVoting save ( SessionVotinRequest sessionVotinRequest ) throws IllegalAccessException ;
 
     public boolean validateTimeSession ( String session_id ) throws IllegalAccessException ;
 

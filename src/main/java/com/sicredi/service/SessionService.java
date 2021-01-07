@@ -4,6 +4,8 @@ import com.sicredi.dao.SessionRepository;
 import com.sicredi.model.Pauta;
 import com.sicredi.model.Session;
 import com.sicredi.model.SessionVoting;
+import com.sicredi.request.PautaRequest;
+import com.sicredi.request.SessionRequest;
 import com.sicredi.serviceimpl.SessionImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,8 +65,8 @@ public class SessionService implements SessionImpl {
         int totalVoteNotFavorable=0;
         int totalVoteFavorable=0;
 
-        List < SessionVoting > votinOptional = sessionVotingService.getSessionVotin (  session.get_id () );
-        Optional< Pauta > pautaOptional= pautaService.findOne ( session.getPauta ().get_id ());
+        List < SessionVoting > votinOptional = sessionVotingService.getSessionVotin (  session.getId () );
+        Optional< Pauta > pautaOptional= pautaService.findOne ( session.getPauta ().getId ());
         Pauta pauta =pautaOptional.get ();
 
         for ( SessionVoting votin:votinOptional ) {
@@ -76,12 +78,16 @@ public class SessionService implements SessionImpl {
         }
         pauta.setTotalVoteNotFavorable ( totalVoteNotFavorable );
         pauta.setTotalVoteFavorable ( totalVoteFavorable );
-        pautaService.update ( pauta );
+        PautaRequest pautaRequest = new PautaRequest ( pauta.getId (),pauta.getName ()
+                ,pauta.getTotalVoteFavorable (),pauta.getTotalVoteNotFavorable () );
+        pautaService.update (  pautaRequest );
 
         return pauta;
     }
 
-    public Session save ( Session session ) throws ParseException, IllegalAccessException {
+    public Session save ( SessionRequest sessionRequest ) throws ParseException, IllegalAccessException {
+
+            Session session = sessionRequest.toSession ( sessionRequest );
              repository.save ( session );
 
         return session;

@@ -2,6 +2,7 @@ package com.sicredi.service;
 
 import com.sicredi.dao.SessionVotinRepository;
 import com.sicredi.model.SessionVoting;
+import com.sicredi.request.SessionVotinRequest;
 import com.sicredi.serviceimpl.SessionVotinImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,22 +28,23 @@ public class SessionVotingService implements SessionVotinImpl {
         logger = LoggerFactory.getLogger ( SessionVotingService.class );
     }
 
-    public SessionVoting save ( SessionVoting sessionVotin ) throws IllegalAccessException {
+    public SessionVoting save ( SessionVotinRequest sessionVotinRequest ) throws IllegalAccessException {
 
-        String user_id = sessionVotin.getUser ( ).get_id ( );
-        String session_id = sessionVotin.getSession ( ).get_id ( );
+        SessionVoting sessionVotin = sessionVotinRequest.toSession ( sessionVotinRequest );
+        String user_id = sessionVotin.getUser ( ).getId ( );
+        String session_id = sessionVotin.getSession ( ).getId ( );
         if ( validVoteUserExists ( user_id , session_id ) ) {
             logger.error ( "Usuário já votou nessa sessão!" );
             throw new DuplicateFormatFlagsException ( ": Operação não permitida! Usuário ja votou nessa sessão" );
         }
-        if ( ! validateTimeSession ( sessionVotin.getSession ( ).get_id ( ) ) ) {
+        if ( ! validateTimeSession ( sessionVotin.getSession ( ).getId ( ) ) ) {
             logger.error ( ": Tempo esgotado para a votação!" );
             throw new DuplicateFormatFlagsException ( ": Operação não permitida! Tempo esgotado para a votação." );
         }
         repository.save ( sessionVotin );
         logger.info ( ": save data vote" );
         logger.info ( ": Voto computado com sucesso!" );
-        logger.info ( ": user ID : " + sessionVotin.getUser ( ).get_id ( ) );
+        logger.info ( ": user ID : " + sessionVotin.getUser ( ).getId ( ) );
         return sessionVotin;
     }
 
@@ -89,8 +91,8 @@ public class SessionVotingService implements SessionVotinImpl {
         List<SessionVoting> list= repository.findSessionVotin ( session_id );
         list.forEach ( s->{
             logger.info ("Pauta name:"+ s.getSession ().getPauta ().getName () );
-            logger.info ("Session:"+ s.getSession ().get_id () );
-            logger.info ("id:"+ s.get_id () );
+            logger.info ("Session:"+ s.getSession ().getId () );
+            logger.info ("id:"+ s.getId () );
             logger.info ("CPF:"+ s.getUser ().getCPF () );
             logger.info ("Voto:"+ s.isVote () );
         } );

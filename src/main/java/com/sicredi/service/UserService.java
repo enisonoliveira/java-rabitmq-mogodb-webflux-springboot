@@ -2,6 +2,7 @@ package com.sicredi.service;
 
 import com.sicredi.dao.UserRepository;
 import com.sicredi.model.User;
+import com.sicredi.request.UserRequest;
 import com.sicredi.serviceimpl.UserImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +19,16 @@ public class UserService implements UserImpl {
 
     private Logger logger;
 
+    @Autowired
+    private UserRequest userRequest;
+
     {
         logger = LoggerFactory.getLogger ( UserService.class );
     }
 
-    public User save( User user) throws Exception {
+    public User save( UserRequest userRequest) throws Exception {
 
+        User user=userRequest.toUser (  userRequest );
         existCPF(user.getCPF ());
         repository.save(user);
 
@@ -46,8 +51,8 @@ public class UserService implements UserImpl {
             user = userOptional.get (  );
         } else {
             //se não existe cadastra um novo usuário com cpf informado
-            user = new User ( null , CPF , true );
-            user = save ( user );
+            userRequest = new UserRequest ( null , CPF , true );
+            user = save (userRequest );
         }
         return user;
     }

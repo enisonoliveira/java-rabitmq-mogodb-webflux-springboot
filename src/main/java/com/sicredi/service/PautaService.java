@@ -2,6 +2,7 @@ package com.sicredi.service;
 
 import com.sicredi.dao.PautaRepository;
 import com.sicredi.model.Pauta;
+import com.sicredi.request.PautaRequest;
 import com.sicredi.serviceimpl.PautaImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,22 +25,26 @@ public class PautaService implements PautaImpl {
         logger = LoggerFactory.getLogger ( PautaService.class );
     }
 
-    public Pauta save ( Pauta pauta ) {
+    public Pauta save ( PautaRequest pautaRequest ) {
 
-        if(!validateName ( pauta.getName ()  )||!( pauta.get_id ()==null)){
+        Pauta pauta = pautaRequest.toPauta ( pautaRequest );
+
+        if(!validateName ( pauta.getName ()  )||!( pauta.getId ()==null)){
             logger.error ( ": Pauta  "+ pauta.getName () +" já existe no banco" );
             throw  new DuplicateFormatFlagsException ( ": Operação não permitida!" );
         }
         repository.save ( pauta );
         logger.info ( ": save data pauta " );
         logger.info ( ": Operação realizada com sucesso!");
-        logger.info ( ": ID:"+ pauta.get_id () );
+        logger.info ( ": ID:"+ pauta.getId () );
         return pauta;
     }
 
-    public Pauta update ( Pauta pauta ) {
+    public Pauta update ( PautaRequest pautaRequest ) {
 
-        if( pauta.get_id () == null || pauta.get_id ().equals ( "" )
+        Pauta pauta = pautaRequest.toPauta ( pautaRequest );
+
+        if( pauta.getId () == null || pauta.getId ().equals ( "" )
                 || pauta.getName ().equals ( "" ) || pauta.getName ()==null){
             logger.error ( ":Pauta como dados inválido para alteração" );
             throw  new DuplicateFormatFlagsException ( ":Operação não permitida!" );
@@ -47,7 +52,7 @@ public class PautaService implements PautaImpl {
         repository.save ( pauta );
         logger.info ( ": Update data pauta" );
         logger.info (": Operação update realizada com sucesso!");
-        logger.info (": ID:"+ pauta.get_id () );
+        logger.info (": ID:"+ pauta.getId () );
 
         return pauta;
     }

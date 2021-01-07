@@ -1,13 +1,13 @@
 package com.sicredi.serviceimpl;
 
 import com.sicredi.model.User;
+import com.sicredi.request.UserRequest;
 
 import java.util.Optional;
 
 public interface UserImpl {
 
-
-    public User save( User user) throws Exception;
+    public User save( UserRequest userRequest) throws Exception;
 
     public boolean existCPF( String CPF) throws Exception;
 

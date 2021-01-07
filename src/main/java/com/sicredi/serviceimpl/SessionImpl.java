@@ -2,6 +2,7 @@ package com.sicredi.serviceimpl;
 
 import com.sicredi.model.Pauta;
 import com.sicredi.model.Session;
+import com.sicredi.request.SessionRequest;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -13,7 +14,7 @@ public interface SessionImpl {
 
     public Pauta pauta( Session session ) throws IllegalAccessException;
 
-    public Session save ( Session session ) throws ParseException, IllegalAccessException;
+    public Session save ( SessionRequest sessionRequest ) throws ParseException, IllegalAccessException;
 
     public Session initSession ( Session session ) throws ParseException, IllegalAccessException;
 

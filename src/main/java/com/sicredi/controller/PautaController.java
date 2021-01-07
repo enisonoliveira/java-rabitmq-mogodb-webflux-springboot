@@ -4,14 +4,20 @@ import com.google.gson.Gson;
 import com.sicredi.jms.producer.Producer;
 import com.sicredi.model.Pauta;
 import com.sicredi.model.Session;
+import com.sicredi.request.PautaRequest;
+import com.sicredi.request.SessionRequest;
+import com.sicredi.response.PautaResponse;
+import com.sicredi.response.SessionResponse;
 import com.sicredi.service.PautaService;
 import com.sicredi.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -27,9 +33,13 @@ public class PautaController {
     @Autowired
     private Producer rabbitMQSender;
 
+    @Autowired
+    private SessionResponse sessionResponse ;
+
+
     @GetMapping (value = "/start/{session_id}")
     @ResponseStatus ( HttpStatus.OK)
-    public ResponseEntity <Object> saveSession( @PathVariable ("session_id") String session_id)
+    public ResponseEntity < Mono <String> > saveSession( @PathVariable ("session_id") String session_id)
             throws ParseException, IllegalAccessException {
 
         Optional < Session > sessionOptional =sessionService.findById (session_id);
@@ -42,23 +52,30 @@ public class PautaController {
             rabbitMQSender.sendAll ( "Finish job session " );
             rabbitMQSender.sendAll ( gson.toJson ( pauta ) );
         }
-        return ResponseEntity.ok( pauta );
+        PautaResponse pautaResponse = new PautaResponse (  );
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("X-Reason", "ok")
+                .body(Mono.just( pautaResponse.toPautaJson ( pauta )));
     }
 
     @PostMapping (value = "/save/{name}")
     @ResponseStatus ( HttpStatus.OK)
-    public ResponseEntity <?> savePauta( @PathVariable ("name") String name)
+    public  ResponseEntity < Mono <String> > savePauta( @PathVariable ("name") String name)
             throws ParseException, IllegalAccessException {
 
-        Pauta pauta = new Pauta ( null,name,0,0 );
-        pauta =service.save ( pauta );
+        PautaRequest pautaRequest = new PautaRequest ( null,name,0,0 );
+        Pauta pauta =service.save ( pautaRequest );
 
-        Session session = new Session ( null,null,null, pauta ,false );
-        session=sessionService.save ( session );
+        SessionRequest sessionRequest = new SessionRequest (null,null, new Date ( ) , pauta ,false ,false);
+        Session session=sessionService.save ( sessionRequest );
 
         rabbitMQSender.sendAll ("pauta cadastrada com suscesso!");
 
-        return ResponseEntity.ok(session);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header("X-Reason", "ok")
+                .body(Mono.just( sessionResponse.toSessionJson ( session )));
 
     }
 }

@@ -65,7 +65,7 @@ public class ApplicationTest {
 	}
 
 	@Test
-	void testRepoUser() {
+	void testRepoUser() throws Exception {
 		User user = new User ( null, ""+random , true);
 		user=userService.save ( user );
 		assertEquals ( ""+random,user.getCPF () );
@@ -80,11 +80,11 @@ public class ApplicationTest {
 
 		Session session = new Session (  null, new Date (  ), new Date (  ), pauta ,false);
 		session=sessionService.save ( session );
-		assertEquals ( pauta.get_id (), session.getPauta ().get_id ());
+		assertEquals ( pauta.getId (), session.getPauta ().getId ());
 	}
 
 	@Test
-	void testRepoVote() throws ParseException, IllegalAccessException {
+	void testRepoVote() throws Exception {
 
 		User user = new User ( null, "1"+random , true);
 		user=userService.save ( user );
@@ -99,7 +99,7 @@ public class ApplicationTest {
 
 		pauta =sessionService.startSession ( session );
 
-		assertEquals ( pauta.get_id (), session.getPauta ().get_id ());
+		assertEquals ( pauta.getId (), session.getPauta ().getId ());
 
 	}
 

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class SessionVoting {
 
     @Id
-    private String _id;
+    private String id;
 
     @DBRef
     private User user;
@@ -23,19 +23,10 @@ public class SessionVoting {
 
     public SessionVoting ( ){}
 
-    public SessionVoting ( String _id , User user , Session session , boolean vote ) {
-        this._id = _id;
+    public SessionVoting (  User user , Session session , boolean vote ) {
         this.user = user;
         this.session = session;
         this.vote = vote;
-    }
-
-    public String get_id () {
-        return _id;
-    }
-
-    public void set_id (String _id) {
-        this._id = _id;
     }
 
     public User getUser () {
@@ -60,5 +51,13 @@ public class SessionVoting {
 
     public void setVote (boolean vote) {
         this.vote = vote;
+    }
+
+    public String getId ( ) {
+        return id;
+    }
+
+    public void setId ( String id ) {
+        this.id = id;
     }
 }

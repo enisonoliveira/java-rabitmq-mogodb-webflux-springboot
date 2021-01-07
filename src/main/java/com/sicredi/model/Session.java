@@ -11,7 +11,7 @@ import java.util.Date;
 public class Session {
 
     @Id
-    private String _id;
+    private String id;
 
     @Field("date_start_session")
     private Date startSession;
@@ -28,21 +28,12 @@ public class Session {
     @Field("finish_session")
     private boolean finish_session;
 
-    public Session ( String _id , Date startSession , Date endSession , Pauta pauta , boolean finish_session ) {
-        this._id = _id;
+    public Session ( String id, Date startSession , Date endSession ,  Pauta pauta , boolean init_session,boolean finish_session ) {
         this.startSession = null;
         this.endSession = null;
         this.pauta = pauta;
         this.finish_session = false;
         this.init_session = false;
-    }
-
-    public String get_id () {
-        return _id;
-    }
-
-    public void set_id (String _id) {
-        this._id = _id;
     }
 
     public Date getStartSession () {
@@ -61,7 +52,7 @@ public class Session {
         this.endSession = endSession;
     }
 
-    public Pauta getPauta () {
+    public  Pauta getPauta () {
         return pauta;
     }
 
@@ -83,5 +74,13 @@ public class Session {
 
     public void setInit_session ( boolean init_session ) {
         this.init_session = init_session;
+    }
+
+    public String getId ( ) {
+        return id;
+    }
+
+    public void setId ( String id ) {
+        this.id = id;
     }
 }

@@ -3,8 +3,8 @@ package com.sicredi.controller;
 import com.google.gson.Gson;
 import com.sicredi.jms.producer.Producer;
 import com.sicredi.model.Session;
-import com.sicredi.model.SessionVoting;
 import com.sicredi.model.User;
+import com.sicredi.request.SessionVotinRequest;
 import com.sicredi.service.SessionService;
 import com.sicredi.service.SessionVotingService;
 import com.sicredi.service.UserService;
@@ -15,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.text.ParseException;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -50,7 +48,7 @@ public class VotingController {
         {
             boolean votingUser= voting.equals ( "sim" )? true:false;
             User user = userService.saveSearchUser(CPF);
-            SessionVoting  sessionVoting =new SessionVoting ( null , user , session , votingUser );
+            SessionVotinRequest sessionVoting =new SessionVotinRequest ( null, user , session , votingUser );
             registerVotin ( sessionVoting );
         }
 
@@ -60,7 +58,7 @@ public class VotingController {
                 .body(Mono.just("ok"));
     }
 
-    private void registerVotin  ( SessionVoting sessionVoting ) throws IllegalAccessException {
+    private void registerVotin  ( SessionVotinRequest sessionVoting ) throws IllegalAccessException {
 
         //opicional para concorrencia de votação com mensageria ou direto no banco
         Gson gson = new Gson ();

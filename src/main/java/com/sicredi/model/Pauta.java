@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Pauta {
 
     @Id
-    private String _id;
+    private String id;
 
     @Field("name")
     @Indexed(unique = true)
@@ -23,19 +23,18 @@ public class Pauta {
 
     public Pauta (){}
 
-    public Pauta ( String _id, String name, int totalVoteFavorable, int totalVoteNotFavorable) {
-        this._id = _id;
+    public Pauta ( String id, String name, int totalVoteFavorable, int totalVoteNotFavorable) {
         this.name = name;
         this.totalVoteFavorable = totalVoteFavorable;
         this.totalVoteNotFavorable = totalVoteNotFavorable;
     }
 
-    public String get_id() {
-        return _id;
+    public String getId ( ) {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId ( String id ) {
+        this.id = id;
     }
 
     public String getName() {
