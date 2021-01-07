@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class SessionVoting {
 
     @Id
-    private String id;
+    private String _id;
 
     @DBRef
     private User user;
@@ -54,10 +54,10 @@ public class SessionVoting {
     }
 
     public String getId ( ) {
-        return id;
+        return _id;
     }
 
-    public void setId ( String id ) {
-        this.id = id;
+    public void setId ( String _id ) {
+        this._id = _id;
     }
 }

@@ -7,6 +7,7 @@ import com.sicredi.model.SessionVoting;
 import com.sicredi.request.PautaRequest;
 import com.sicredi.request.SessionRequest;
 import com.sicredi.serviceimpl.SessionImpl;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,9 +79,8 @@ public class SessionService implements SessionImpl {
         }
         pauta.setTotalVoteNotFavorable ( totalVoteNotFavorable );
         pauta.setTotalVoteFavorable ( totalVoteFavorable );
-        PautaRequest pautaRequest = new PautaRequest ( pauta.getId (),pauta.getName ()
-                ,pauta.getTotalVoteFavorable (),pauta.getTotalVoteNotFavorable () );
-        pautaService.update (  pautaRequest );
+        logger.info ( "update pauta ID "+ pauta.getId () );
+        pautaService.update (  pauta );
 
         return pauta;
     }
@@ -114,7 +114,7 @@ public class SessionService implements SessionImpl {
 
 
 
-    public boolean compareIntervalDate ( String _id ) {
+    public boolean compareIntervalDate ( String _id ) throws Exception {
 
         Optional < Session > optionalSession = findById ( _id );
         Session session = optionalSession.get ( );
@@ -150,15 +150,27 @@ public class SessionService implements SessionImpl {
         return endDate;
     }
 
-    public boolean sessionHasInitialized(String sesssion_id){
+    public boolean sessionHasInitialized(String sesssion_id) throws Exception {
 
         Optional<Session> sessionOptional=findById ( sesssion_id );
         Session session=sessionOptional.get ();
         return session.isInit_session ();
     }
 
-    public Optional < Session > findById ( String _id ) {
-        return repository.findById ( _id );
+    public Optional < Session > findById ( String id ) throws Exception {
+        if( ! repository.existsById ( id )){
+            throw new Exception (" Sessao nao encontrada!" );
+        }
+        Optional<Session> sessionOptional =repository.findById ( id );
+        logger.info ( "Sessão encontrada ID "+sessionOptional.get ().getId () );
+
+        return sessionOptional;
     }
+
+    @Override
+    public Optional < Session > findPautaId ( String pauta_id ) {
+        return repository.findPautaId ( pauta_id );
+    }
+
 
 }

@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class User {
 
     @Id
-    private String id;
+    private String _id;
 
     @Indexed(unique = true)
     @Field ( "CPF" )
@@ -18,18 +18,18 @@ public class User {
     @Field ( "able_to_vote" )
     private boolean ableToVote;
 
-    public User ( String id , String CPF , boolean ableToVote ) {
-        this.id = id;
+    public User ( String _id , String CPF , boolean ableToVote ) {
+        this._id = _id;
         this.CPF = CPF;
         this.ableToVote = ableToVote;
     }
 
     public String getId ( ) {
-        return id;
+        return _id;
     }
 
     public void setId ( String id ) {
-        this.id = id;
+        this._id = id;
     }
 
     public String getCPF ( ) {

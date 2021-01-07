@@ -43,6 +43,19 @@ public class ErrorContoller  {
     }
 
 
+
+    @ExceptionHandler ( value = {Exception.class} )
+    protected ResponseEntity < Response > exception ( Exception exception ,
+                                                           WebRequest request ) {
+
+        Response response = new Response ( );
+        response.addErrorMsgToResponse ( exception.getLocalizedMessage ( ) );
+
+        return ResponseEntity.status ( HttpStatus.NOT_FOUND ).body ( response );
+    }
+
+
+
     @ExceptionHandler ( value = {IllegalAccessException.class} )
     protected ResponseEntity < Response > illegalAccessException ( IllegalAccessException exception ,
                                                                    WebRequest request ) {

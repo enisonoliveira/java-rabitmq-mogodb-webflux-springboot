@@ -26,7 +26,10 @@ public interface SessionImpl {
 
     public Date getDateEndSession ( Date startSession ) throws ParseException, IllegalAccessException;
 
-    public boolean sessionHasInitialized(String sesssion_id);
+    public boolean sessionHasInitialized(String sesssion_id) throws Exception;
 
-    public Optional < Session > findById ( String _id );
+    public Optional < Session > findById ( String _id ) throws Exception;
+
+    Optional< Session> findPautaId ( String id );
+
 }

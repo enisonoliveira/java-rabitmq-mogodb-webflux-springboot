@@ -8,10 +8,11 @@ import java.util.Optional;
 
 public interface SessionRepository extends MongoRepository<Session, String> {
 
-    Optional < Session > findById( String _id);
+    Optional < Session > findById( String id);
 
     Session save( Session session);
 
     @Query ("{'pauta._id': ?0}")
     Optional< Session> findPautaId ( String id );
+
 }

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.DuplicateFormatFlagsException;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +28,7 @@ public class PautaService implements PautaImpl {
 
         Pauta pauta = pautaRequest.toPauta ( pautaRequest );
 
-        if(!validateName ( pauta.getName ()  )||!( pauta.getId ()==null)){
+        if(validateName ( pauta.getName () )){
             logger.error ( ": Pauta  "+ pauta.getName () +" já existe no banco" );
             throw  new DuplicateFormatFlagsException ( ": Operação não permitida!" );
         }
@@ -40,10 +39,13 @@ public class PautaService implements PautaImpl {
         return pauta;
     }
 
-    public Pauta update ( PautaRequest pautaRequest ) {
+    public Pauta update ( Pauta pauta ) {
 
-        Pauta pauta = pautaRequest.toPauta ( pautaRequest );
 
+        logger.info ( "pauta id "+pauta.getId () );
+        logger.info ( "pauta name "+pauta.getName () );
+        logger.info ( "Total voto contra "+pauta.getTotalVoteFavorable () );
+        logger.info ( "Total de voto pró "+pauta.getTotalVoteNotFavorable () );
         if( pauta.getId () == null || pauta.getId ().equals ( "" )
                 || pauta.getName ().equals ( "" ) || pauta.getName ()==null){
             logger.error ( ":Pauta como dados inválido para alteração" );

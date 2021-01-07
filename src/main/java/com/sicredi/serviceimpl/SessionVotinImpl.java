@@ -9,11 +9,9 @@ import java.util.Optional;
 
 public interface SessionVotinImpl{
 
-    public SessionVoting save ( SessionVotinRequest sessionVotinRequest ) throws IllegalAccessException ;
+    public SessionVoting save ( SessionVotinRequest sessionVotinRequest ) throws Exception;
 
-    public boolean validateTimeSession ( String session_id ) throws IllegalAccessException ;
-
-    public boolean validVoteUserExists ( String user_id , String session_id ) throws IllegalAccessException;
+    public boolean validateTimeSession ( String session_id ) throws Exception;
 
     public boolean existsVotinSession ( String user_id , String session_id );
 

@@ -28,12 +28,14 @@ public class SessionVotingService implements SessionVotinImpl {
         logger = LoggerFactory.getLogger ( SessionVotingService.class );
     }
 
-    public SessionVoting save ( SessionVotinRequest sessionVotinRequest ) throws IllegalAccessException {
+    public SessionVoting save ( SessionVotinRequest sessionVotinRequest ) throws Exception {
 
+        logger.info ( "computando voto " );
         SessionVoting sessionVotin = sessionVotinRequest.toSession ( sessionVotinRequest );
         String user_id = sessionVotin.getUser ( ).getId ( );
         String session_id = sessionVotin.getSession ( ).getId ( );
-        if ( validVoteUserExists ( user_id , session_id ) ) {
+        logger.info ( "session_id: "+session_id + "user_id :" +user_id );
+        if ( existsVotinSession ( user_id , session_id ) ) {
             logger.error ( "Usuário já votou nessa sessão!" );
             throw new DuplicateFormatFlagsException ( ": Operação não permitida! Usuário ja votou nessa sessão" );
         }
@@ -48,24 +50,12 @@ public class SessionVotingService implements SessionVotinImpl {
         return sessionVotin;
     }
 
-    public boolean validateTimeSession ( String session_id ) throws IllegalAccessException {
+    public boolean validateTimeSession ( String session_id ) throws Exception {
 
         if ( session_id.equals ( "" )  || session_id==null){
             throw new IllegalAccessException ( " : Certifique de passar um usuario e sessao valida! " );
         }
         return sessionService.compareIntervalDate ( session_id );
-    }
-
-
-    public boolean validVoteUserExists ( String user_id , String session_id ) throws IllegalAccessException {
-
-        logger.info ( "consultando user ID:"+ user_id);
-        logger.info ( "consultando sessão ID :"+ session_id);
-        if((user_id.equals ( "" ) || user_id==null)|| (session_id.equals ( "" ) || session_id==null)){
-            throw new IllegalAccessException ( " : Certifique de passar um usuario e sessao valida! " );
-        }
-
-        return existsVotinSession(user_id,session_id);
     }
 
     public boolean existsVotinSession ( String user_id , String session_id ) {

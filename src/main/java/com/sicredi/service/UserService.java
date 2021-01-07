@@ -19,8 +19,7 @@ public class UserService implements UserImpl {
 
     private Logger logger;
 
-    @Autowired
-    private UserRequest userRequest;
+
 
     {
         logger = LoggerFactory.getLogger ( UserService.class );
@@ -29,15 +28,15 @@ public class UserService implements UserImpl {
     public User save( UserRequest userRequest) throws Exception {
 
         User user=userRequest.toUser (  userRequest );
-        existCPF(user.getCPF ());
+        noExistCPF(user.getCPF ());
         repository.save(user);
 
         return user;
     }
 
-    public boolean existCPF( String CPF) throws Exception {
+    public boolean noExistCPF( String CPF) throws Exception {
 
-        if(!repository.findByCPF ( CPF ).isPresent ()){
+        if(repository.findByCPF ( CPF ).isPresent ()){
             throw  new Exception ( "CPF já existente na base de dados!" );
         }
         return false;
@@ -51,13 +50,17 @@ public class UserService implements UserImpl {
             user = userOptional.get (  );
         } else {
             //se não existe cadastra um novo usuário com cpf informado
-            userRequest = new UserRequest ( null , CPF , true );
+            UserRequest userRequest = new UserRequest ( null , CPF , true );
             user = save (userRequest );
         }
+        logger.info ( "CPF encontrado ?: "+userOptional.isPresent () );
+        logger.info ( "ID  : "+user.getId () );
         return user;
     }
-    public Optional < User > findByCPF( String  CPF){
-       return repository.findByCPF ( CPF );
+
+    public Optional < User > findByCPF( String  CPF) throws Exception {
+
+        return Optional.ofNullable( repository.findByCPF ( CPF ).orElseThrow ( ( ) -> new Exception ( "CPF não encontrado!" ) ) );
     }
 
 }

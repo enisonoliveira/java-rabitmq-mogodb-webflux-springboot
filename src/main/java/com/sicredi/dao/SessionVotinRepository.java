@@ -19,6 +19,4 @@ public interface SessionVotinRepository extends MongoRepository< SessionVoting, 
     @Query("{'session._id' : ?0}")
     List< SessionVoting > findSessionVotin( String session_id);
 
-
-
 }

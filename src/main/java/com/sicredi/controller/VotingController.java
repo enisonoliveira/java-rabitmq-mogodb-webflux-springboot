@@ -24,7 +24,6 @@ public class VotingController {
     @Autowired
     private SessionVotingService sessionVotingService;
 
-
     @Value ( "${messages.status}" )
     protected String messages;
 
@@ -44,11 +43,12 @@ public class VotingController {
 
         Optional < Session > sessionOptional = sessionService.findById ( session_id );
         Session session = sessionOptional.get ();
-
+        System.out.println (" id da sessap "+ session.getId () );
         {
             boolean votingUser= voting.equals ( "sim" )? true:false;
             User user = userService.saveSearchUser(CPF);
             SessionVotinRequest sessionVoting =new SessionVotinRequest ( null, user , session , votingUser );
+            System.out.println (" id da sessap "+ sessionVoting.getId () );
             registerVotin ( sessionVoting );
         }
 
@@ -58,7 +58,7 @@ public class VotingController {
                 .body(Mono.just("ok"));
     }
 
-    private void registerVotin  ( SessionVotinRequest sessionVoting ) throws IllegalAccessException {
+    private void registerVotin  ( SessionVotinRequest sessionVoting ) throws Exception {
 
         //opicional para concorrencia de votação com mensageria ou direto no banco
         Gson gson = new Gson ();

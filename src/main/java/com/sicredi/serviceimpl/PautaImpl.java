@@ -14,7 +14,7 @@ public interface PautaImpl {
 
     public boolean validateName(String name);
 
-    public Pauta update ( PautaRequest pautaRequest);
+    public Pauta update ( Pauta pauta);
 
     public Optional < Pauta > findName ( String name );
 }

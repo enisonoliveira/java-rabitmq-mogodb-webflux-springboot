@@ -33,14 +33,11 @@ public class PautaController {
     @Autowired
     private Producer rabbitMQSender;
 
-    @Autowired
-    private SessionResponse sessionResponse ;
-
 
     @GetMapping (value = "/start/{session_id}")
     @ResponseStatus ( HttpStatus.OK)
     public ResponseEntity < Mono <String> > saveSession( @PathVariable ("session_id") String session_id)
-            throws ParseException, IllegalAccessException {
+            throws Exception {
 
         Optional < Session > sessionOptional =sessionService.findById (session_id);
         Session session = sessionOptional.get ();
@@ -72,6 +69,7 @@ public class PautaController {
 
         rabbitMQSender.sendAll ("pauta cadastrada com suscesso!");
 
+        SessionResponse sessionResponse  = new SessionResponse (  );
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header("X-Reason", "ok")

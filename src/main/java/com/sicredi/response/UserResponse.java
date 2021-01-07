@@ -5,6 +5,7 @@ import com.sicredi.data.UserData;
 import com.sicredi.model.User;
 
 public class UserResponse  extends UserData {
+
     public UserResponse ( String id , String CPF , boolean ableToVote ) {
         super ( id , CPF , ableToVote );
     }

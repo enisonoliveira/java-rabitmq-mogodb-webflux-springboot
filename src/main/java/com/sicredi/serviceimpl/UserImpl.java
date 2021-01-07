@@ -9,10 +9,10 @@ public interface UserImpl {
 
     public User save( UserRequest userRequest) throws Exception;
 
-    public boolean existCPF( String CPF) throws Exception;
+    public boolean noExistCPF( String CPF) throws Exception;
 
     public User saveSearchUser(String CPF) throws Exception;
 
-    public Optional < User > findByCPF( String  CPF);
+    public Optional < User > findByCPF( String  CPF) throws Exception;
 
 }
