@@ -33,6 +33,21 @@ public class SessionData {
         return id;
     }
 
+    public boolean isInitSession ( ) {
+        return initSession;
+    }
+
+    public void setInitSession ( boolean initSession ) {
+        this.initSession = initSession;
+    }
+
+    public boolean isFinishSession ( ) {
+        return finishSession;
+    }
+
+    public void setFinishSession ( boolean finishSession ) {
+        this.finishSession = finishSession;
+    }
     public void setId ( String id ) {
         this.id = id;
     }
@@ -59,18 +74,6 @@ public class SessionData {
 
     public void setPauta ( Pauta pauta ) {
         this.pauta = pauta;
-    }
-
-    public boolean isInit_session ( ) {
-        return initSession;
-    }
-
-    public void setInit_session ( boolean init_session ) {
-        this.initSession = init_session;
-    }
-
-    public boolean isFinish_session ( ) {
-        return finishSession;
     }
 
     public void setFinish_session ( boolean finish_session ) {

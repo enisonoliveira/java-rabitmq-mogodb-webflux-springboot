@@ -14,7 +14,7 @@ public class SessionRequest extends SessionData {
     }
 
     public Session toSession(SessionRequest request){
-        Session session = new Session (request.getId (),request.getStartSession (),request.getEndSession (),request.getPauta (),request.isInit_session (),request.isFinish_session ());
+        Session session = new Session (request.getId (),request.getStartSession (),request.getEndSession (),request.getPauta (),request.isInitSession (),request.isFinishSession ());
         return session;
     }
 
