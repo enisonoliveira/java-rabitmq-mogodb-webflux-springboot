@@ -14,9 +14,9 @@ public class SessionData {
 
     private Pauta pauta;
 
-    private boolean init_session;
+    private boolean initSession;
 
-    private boolean finish_session;
+    private boolean finishSession;
 
     public SessionData(){}
 
@@ -25,8 +25,8 @@ public class SessionData {
         this.startSession = startSession;
         this.endSession = endSession;
         this.pauta = pauta;
-        this.init_session = init_session;
-        this.finish_session = finish_session;
+        this.initSession = init_session;
+        this.finishSession = finish_session;
     }
 
     public String getId ( ) {
