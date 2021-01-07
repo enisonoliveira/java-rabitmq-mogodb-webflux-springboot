@@ -3,7 +3,6 @@ package com.sicredi.response;
 import com.google.gson.Gson;
 import com.sicredi.data.SessionData;
 import com.sicredi.model.Pauta;
-import com.sicredi.model.Session;
 
 import java.util.Date;
 

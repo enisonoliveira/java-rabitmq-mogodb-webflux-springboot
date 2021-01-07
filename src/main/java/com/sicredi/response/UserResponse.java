@@ -2,7 +2,6 @@ package com.sicredi.response;
 
 import com.google.gson.Gson;
 import com.sicredi.data.UserData;
-import com.sicredi.model.User;
 
 public class UserResponse  extends UserData {
 
