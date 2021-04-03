@@ -55,7 +55,7 @@ http://localhost:8080/v1/pauta/swagger-ui.html
 
 open ssh
 
-cd 
+
  ./gradlew bootRun
 
 
