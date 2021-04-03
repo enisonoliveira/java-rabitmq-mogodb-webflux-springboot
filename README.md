@@ -51,15 +51,11 @@ http://localhost:8080/v1/pauta/swagger-ui.html
 ![Captura de tela de 2021-01-05 00-04-19](https://user-images.githubusercontent.com/24898873/103602028-ce466b00-4ee9-11eb-8d32-3cf4c434788f.png)
 
 
-Inicializando o projeto
-GitHub
-https://github.com/enisonoliveira/sicrediteste
 
-git clone  https://github.com/enisonoliveira/sicrediteste.git
 
 open ssh
 
-cd sicrediteste
+cd 
  ./gradlew bootRun
 
 
