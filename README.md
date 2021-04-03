@@ -2,8 +2,6 @@
 Documentação completa aqui!
 
 
-[doc sicredi.pdf](https://github.com/enisonoliveira/sicrediteste/files/5765724/doc.sicredi.pdf)
-
 <h6 style="font-size:8px">
 Api Pauta de votação
 
@@ -24,8 +22,7 @@ Configuração do projeto
 5.Mensageria RabbitMQ
 
 
-=======================================file propertie.properties===================================================
-Confs  mongodb
+==============file propertie.properties================
 
 Arquivo .properties
 #mongodb
