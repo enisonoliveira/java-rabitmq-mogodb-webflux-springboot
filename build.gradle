@@ -5,12 +5,20 @@ plugins {
 	id 'war'
 }
 
-group = 'com.sicredi'
+group = 'com.pauta'
 version = '1.0'
 
 repositories {
 	mavenCentral()
 }
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+}
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
@@ -31,6 +39,8 @@ dependencies {
 	compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '2.3.0'
 	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
 	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	
 }
 
 test {

@@ -1,16 +1,26 @@
 package com.sicredi;
 
-import com.sicredi.model.Pauta;
-import com.sicredi.model.Session;
-import com.sicredi.model.User;
-import com.sicredi.request.PautaRequest;
-import com.sicredi.request.SessionRequest;
-import com.sicredi.request.SessionVotinRequest;
-import com.sicredi.request.UserRequest;
-import com.sicredi.service.PautaService;
-import com.sicredi.service.SessionService;
-import com.sicredi.service.SessionVotingService;
-import com.sicredi.service.UserService;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.util.Date;
+import java.util.Optional;
+
+import com.pauta.model.Pauta;
+import com.pauta.model.Session;
+import com.pauta.model.User;
+import com.pauta.request.PautaRequest;
+import com.pauta.request.SessionRequest;
+import com.pauta.request.SessionVotinRequest;
+import com.pauta.request.UserRequest;
+import com.pauta.service.PautaService;
+import com.pauta.service.SessionService;
+import com.pauta.service.SessionVotingService;
+import com.pauta.service.UserService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
@@ -20,16 +30,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.time.Instant;
-import java.util.Date;
-import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -83,7 +83,7 @@ public class ApplicationTest {
 		Pauta pauta = pautaService.save ( pautaRequest );
 
 		UserRequest userRequest = new UserRequest ( null, ""+random , true);
-		User user=userService.save ( userRequest );
+		userService.save ( userRequest );
 
 		SessionRequest sessionRequest = new SessionRequest (  null, new Date (  ), new Date (  ), pauta ,false,false);
 		Session session=sessionService.save ( sessionRequest );
